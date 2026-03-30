@@ -1,7 +1,6 @@
-import { useState } from "react";
 import Table from "../../../shared/components/table";
 import SearchBar from "../../../shared/components/searchBar";
-import useEmployeeTable from "../hooks/useEmployeeTable";
+import useEmployeeTable from "../hooks/useEmployeeTable"; 
 import EmployeeInfoModal from "./employeeInfoModal";
 import EmployeeEditModal from "./employeeEditModal";
 
