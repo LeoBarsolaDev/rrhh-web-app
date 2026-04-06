@@ -3,7 +3,7 @@ import { Button } from "../../../shared/components/button";
 import Modal from "../../../shared/components/modal";
 import type { Requests } from "../types/requestsType";
 import { RenderRequestModule, RequestAdvancesLoans, RequestGeneralInquiry, RequestLeavesOfAbsence, RequestPermits, RequestSickness } from "./requestModules";
-import { faCheck, faCross, faPencil, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faCheckDouble, faCross, faPencil, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 export default function RequestModal({request, open, setOpen} : {request:Requests | null, open:boolean, setOpen: (value: boolean) => void;}){
     const InfoField = ({ label, value }: { label: string; value: string | number | null | undefined }) => (
@@ -76,13 +76,13 @@ export default function RequestModal({request, open, setOpen} : {request:Request
                     </span>
                 )}
 
-                <div className="flex gap-2 w-full">
-                    <div className="bg-secondary py-2 px-4 rounded-2xl mt-2 w-full flex gap-2">
+                <div className="flex gap-2 w-full flex-col md:flex-row">
+                    <div className="bg-secondary py-2 px-4 rounded-2xl mt-2 w-full flex gap-2 flex-col sm:flex-row">
                         <Button wide rounded color="edit"> <FontAwesomeIcon icon={faPencil} /> Editar Prioridad </Button> 
-                        <Button wide rounded color="clean"> <FontAwesomeIcon icon={faPencil} /> Editar Estado </Button> 
+                        <Button wide rounded color="clean"> <FontAwesomeIcon icon={faCheckDouble} /> Revisado </Button> 
                     </div>
 
-                    <div className="bg-secondary py-2 px-4 rounded-2xl mt-2 w-full flex gap-2">
+                    <div className="bg-secondary py-2 px-4 rounded-2xl mt-2 w-full flex gap-2 flex-col sm:flex-row">
                         <Button wide rounded color="done"> <FontAwesomeIcon icon={faCheck} /> Aceptar Solicitud </Button> 
                         <Button wide rounded color="delete"> <FontAwesomeIcon icon={faXmark} /> Rechazar Solicitud </Button> 
                     </div>

@@ -7,11 +7,25 @@ import { CreateEmployeeAdminFormContact, CreateEmployeeAdminFormPersonal, Create
 import { Button } from "../../../shared/components/button";
 import { CreateEmployeeWorkerFormContact, CreateEmployeeWorkerFormPersonal, CreateEmployeeWorkerFormWork } from "./createEmployeeWorkerForm";
 import Input from "../../../shared/components/input";
+import useCreateEmployeeForm from "../hooks/useCreateEmployeeForm";
+import { Alert } from "../../../shared/components/alert";
 
 export default function CreateEmployeeForm(){
     const [employee_type, setEmployeeType] = useState("");
+    const {
+        isSending,
+        alertOpen,
+        message,
+        alertType,
+        setAlertOpen,
+        onSuccess,
+        onError,
+    } = useCreateEmployeeForm();
     return(
-        <Form url="">
+        <Form url="/rrhh/employees" method="POST" onError={onError} onSuccess={onSuccess}>
+            <Alert show={alertOpen} type={alertType === "success" ? "success" : "error"} onClose={() => {setAlertOpen(false)}}>
+                {message}
+            </Alert>
             <Wizard>
                 <Step name="Información inicial">
                     <div className="p-2 flex flex-col gap-4 justify-center">
@@ -45,7 +59,7 @@ export default function CreateEmployeeForm(){
                                 value="1"
                                 selected={employee_type}
                                 onChange={setEmployeeType}
-                                name="employee_type"
+                                name="type"
                                 // required
                             >
                                 <span>Administrativo/a</span>
@@ -55,7 +69,7 @@ export default function CreateEmployeeForm(){
                                 value="2"
                                 selected={employee_type}
                                 onChange={setEmployeeType}
-                                name="employee_type"
+                                name="type"
                                 required
                             >
                                 <span>Obrero</span>
@@ -78,7 +92,7 @@ export default function CreateEmployeeForm(){
                     {employee_type === "1" && <CreateEmployeeAdminFormContact />}
                     {employee_type === "2" && <CreateEmployeeWorkerFormContact />}
 
-                    <Button wide> Guardar empleado </Button>
+                    <Button type="submit" wide> Guardar empleado </Button>
                 </Step>
             </Wizard>
         </Form>

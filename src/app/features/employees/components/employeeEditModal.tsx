@@ -26,32 +26,28 @@ export default function EmployeeEditModal({open, setOpen, employee} : props){
                 hover:[&::-webkit-scrollbar-thumb]:bg-primary/50
             ">
                 {employee !== null ? (
-                    <Wizard>
-                        <Step name="Información Personal">
-                            <span className="text-primary text-2xl font-bold text-center"> {employee.type} </span>
-                            <Form url="" className="py-2">
-                                <EditEmployeeFormPersonal />
-                                <Button type="submit" rounded wide> Guardar </Button>
-                            </Form>
-                        </Step>
+                    <Form url="/">
+                        <Wizard>
+                            <Step name="Información Personal">
+                                <span className="text-primary text-2xl font-bold text-center"> {employee.type} </span>
+                                    <EditEmployeeFormPersonal employee={employee} />
+                                    <Button type="submit" rounded wide> Guardar </Button>
+                            </Step>
 
-                        <Step name="Información Laboral">
-                            <span className="text-primary text-2xl font-bold text-center"> {employee.type} </span>
-                            <Form url="" className="py-2">
-                                {employee.type === "Administrativo" && <EditEmployeeFormAdminWork />}
-                                {employee.type === "Obrero" && <EditEmployeeFormWorkerWork />}
-                                <Button type="submit" rounded wide> Guardar </Button>
-                            </Form>
-                        </Step>
+                            <Step name="Información Laboral">
+                                <span className="text-primary text-2xl font-bold text-center"> {employee.type} </span>
+                                    {employee.type === "Administrativo" && <EditEmployeeFormAdminWork />}
+                                    {employee.type === "Obrero" && <EditEmployeeFormWorkerWork />}
+                                    <Button type="submit" rounded wide> Guardar </Button>
+                            </Step>
 
-                        <Step name="Información de Contacto">
-                            <span className="text-primary text-2xl font-bold text-center"> {employee.type} </span>
-                            <Form url="" className="py-2">
-                                <EditEmployeeContact />
-                                <Button type="submit" rounded wide> Guardar </Button>
-                            </Form>
-                        </Step>
-                    </Wizard>
+                            <Step name="Información de Contacto">
+                                <span className="text-primary text-2xl font-bold text-center"> {employee.type} </span>
+                                    <EditEmployeeContact />
+                                    <Button type="submit" rounded wide> Guardar </Button>
+                            </Step>
+                        </Wizard>
+                    </Form>
                 ) : (
                     <>Fallo al cargar empleado</>
                 )}

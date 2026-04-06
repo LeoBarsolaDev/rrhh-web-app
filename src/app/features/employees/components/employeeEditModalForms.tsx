@@ -1,8 +1,9 @@
 import { faBuilding, faCalendarPlus, faChurch, faEnvelope, faHouse, faIdCard, faLayerGroup, faMobile, faPhone, faSitemap, faUsers } from "@fortawesome/free-solid-svg-icons";
 import Dropdown from "../../../shared/components/dropdown";
 import Input from "../../../shared/components/input";
+import type { EmployeeType } from "../types/employeeType";
 
-export function EditEmployeeFormPersonal(){
+export function EditEmployeeFormPersonal({employee} : {employee:EmployeeType}){
     return(
         <div className="flex flex-col justify-center mb-2">
             <Dropdown
@@ -10,8 +11,7 @@ export function EditEmployeeFormPersonal(){
                 icon={faIdCard}
                 name="document_type"
                 // onChange={(value) => handleChange("job_type", value)}
-                placeholder="Seleccione el Tipo de documento"
-                // required
+                placeholder={`${employee.document_type_acronym} - ${employee.document_type_name}`}
                 options={[
                     {name:'D.N.I - Documento Nacional de Identidad', id:'1'}, 
                     {name:'L.E - Libreta de Enrolamiento', id:'2'}, 
@@ -24,7 +24,7 @@ export function EditEmployeeFormPersonal(){
                 label="Numero de documento"
                 name="document_number"
                 type="number"
-                placeholder="88.888.888"
+                placeholder={employee.document_number.toString()}
                 icon={faIdCard}
                 // required
                 // onChange={(value) => handleChange("full_name", value)}
@@ -34,7 +34,7 @@ export function EditEmployeeFormPersonal(){
                 label="CUIL"
                 name="cuil"
                 type="number"
-                placeholder="88-88.888.888-8"
+                placeholder={employee.cuil.toString()}
                 icon={faIdCard}
                 // required
                 // onChange={(value) => handleChange("full_name", value)}
@@ -45,7 +45,7 @@ export function EditEmployeeFormPersonal(){
                 icon={faChurch}
                 name="marital_status"
                 // onChange={(value) => handleChange("job_type", value)}
-                placeholder="Seleccione el Estado civil"
+                placeholder={employee.marital_status.toString()}
                 // required
                 options={[
                     {name:'Soltero', id:'1'}, 
@@ -59,7 +59,7 @@ export function EditEmployeeFormPersonal(){
                 label="Domicilio"
                 name="address"
                 type="text"
-                placeholder="..."
+                // placeholder={employee.marital_status.toString()}
                 icon={faHouse}
                 // required
                 // onChange={(value) => handleChange("full_name", value)}

@@ -65,20 +65,28 @@ export default function EmployeeInfoModal({open, setOpen, employee} : props){
                             </div>
 
                             <div className="
-                                    bg-secondary py-2 px-4 w-full rounded-2xl 
-                                    grid gap-x-1 gap-y-3 justify-between
-                                    lg:grid-cols-4 sm:grid-cols-2 grid-cols-1
-                                ">
-                                    <h4 className="col-span-full text-center text-primary font-black text-lg"> Información Laboral </h4>
-                                    <div className="col-span-full bg-separator w-full h-0.5"></div>
-                                    <InfoItem title="Tipo de empleado" info={employee.type} />
-                                    <InfoItem title="Categoria" info={`${employee.category_name} - ${employee.subcategory_rank}°`} />
-                                    <InfoItem title="Área" info={employee.area_name} />
-                                    <InfoItem title="Departamento" info={employee.department_name} />
-                                    <InfoItem title="Rubro" info={employee.field !== null ? employee.field : "No registrada"} />
-                                    <InfoItem title="Fecha de ingreso" info={employee.start_date} />
-                                    <InfoItem title="Fecha de ingresos (Legal)" info={employee.legal_start_date !== null ? employee.legal_start_date : "No registrada"} />
-                                    <InfoItem title="Fecha de salida" info={employee.separation_date !== null ? employee.separation_date : "No registrada"} />
+                                bg-secondary py-2 px-4 w-full rounded-2xl 
+                                flex justify-center items-center gap-2 
+                            ">
+                                <span className="text-center text-foreground font-extrabold md:text-xl text-md leading-none">Direccion: </span>
+                                <span className="text-center text-placeholder font-extralight md:text-lg text-md leading-none"> {employee.address.trim()} </span>
+                            </div>
+                                
+                            <div className="
+                                bg-secondary py-2 px-4 w-full rounded-2xl 
+                                grid gap-x-1 gap-y-3 justify-between
+                                lg:grid-cols-4 sm:grid-cols-2 grid-cols-1
+                            ">
+                                <h4 className="col-span-full text-center text-primary font-black text-lg"> Información Laboral </h4>
+                                <div className="col-span-full bg-separator w-full h-0.5"></div>
+                                <InfoItem title="Tipo de empleado" info={employee.type} />
+                                <InfoItem title="Categoria" info={`${employee.category_name} - ${employee.subcategory_rank}°`} />
+                                <InfoItem title="Área" info={employee.area_name} />
+                                <InfoItem title="Departamento" info={employee.department_name} />
+                                <InfoItem title="Rubro" info={employee.field !== null ? employee.field : "No registrada"} />
+                                <InfoItem title="Fecha de ingreso" info={employee.start_date} />
+                                <InfoItem title="Fecha de ingresos (Legal)" info={employee.legal_start_date !== null ? employee.legal_start_date : "No registrada"} />
+                                <InfoItem title="Fecha de salida" info={employee.separation_date !== null ? employee.separation_date : "No registrada"} />
                             </div>
                         </div>
                     ) : (<></>)

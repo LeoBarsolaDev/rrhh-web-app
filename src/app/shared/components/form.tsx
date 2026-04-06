@@ -1,5 +1,4 @@
-import React, { type ReactNode, type FormEvent } from 'react';
-import { Button } from './button';
+import { type ReactNode, type FormEvent } from 'react';
 import { api } from '../services/apiClient';
 
 interface Props {
@@ -9,46 +8,39 @@ interface Props {
     onError?: (error: any) => void;
     className?: string;
     isSending?: boolean;
+    method?: string;
 }
 
-export default function Form({ url, children, onSuccess, onError, className = "p-6", isSending }: Props) {
+export default function Form({ url, children, onSuccess, onError, className = "p-6", method="POST" }: Props) {
   
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    
-    // 1. Capturamos el FormData directamente del formulario.
-    // Esto incluye automáticamente todos los inputs y archivos.
-    const formData = new FormData(e.currentTarget);
-
-    // Convertir a objeto plano
-    const jsonData = Object.fromEntries(formData.entries());
-
-    console.log(jsonData);
-
-    try {
-        // 2. Enviamos el FormData sin convertir a objeto.
-        // Al no setear manualmente el 'Content-Type', el navegador
-        // generará el 'multipart/form-data' correcto con el 'boundary' necesario.
-        const response: any = await api.post(url, jsonData);
-
-        // Si usas Axios, response.data es el resultado.
-        // Si usas fetch nativo, aquí validarías la respuesta.
-        if (onSuccess) onSuccess(response.data || response);
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         
-    } catch (error: any) {
-        const serverError = error.response?.data || error;
-        
-        if (onError) onError(serverError);
-    }
-  };
+        const formData = new FormData(e.currentTarget);
+        console.log(Object.fromEntries(formData));
 
-  return (
-    <form 
-        onSubmit={handleSubmit} 
-        className={className}
-        encType="multipart/form-data"
-    >
-        {children}
-    </form>
-  );
+        try {
+            let response: any;
+
+            if(method.toLowerCase() == "post") response = await api.post(url, formData);
+            if(method.toLowerCase() == "put") response = await api.put(url, formData);
+            
+
+            if (onSuccess) onSuccess(response);
+            
+        } catch (error: any) {
+            console.error("Error en el formulario:", error.details || error.message);
+            if (onError) onError(error);
+        }
+    };
+
+    return (
+        <form 
+            onSubmit={handleSubmit} 
+            className={className}
+            encType="multipart/form-data" 
+        >
+            {children}
+        </form>
+    );
 }
