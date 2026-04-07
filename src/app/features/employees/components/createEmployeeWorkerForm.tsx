@@ -6,13 +6,13 @@ export function CreateEmployeeWorkerFormPersonal(){
     return(
         <div className="p-2 flex flex-col justify-center">
             <span className="text-primary font-bold text-center"> Obrero </span>
+            
+            {/* FK: ID numérico */}
             <Dropdown
                 label="Tipo de documento"
                 icon={faIdCard}
                 name="document_type"
-                // onChange={(value) => handleChange("job_type", value)}
                 placeholder="Seleccione el Tipo de documento"
-                // required
                 options={[
                     {name:'D.N.I - Documento Nacional de Identidad', id:'1'}, 
                     {name:'L.E - Libreta de Enrolamiento', id:'2'}, 
@@ -21,74 +21,38 @@ export function CreateEmployeeWorkerFormPersonal(){
                 ]}
             />
 
-            <Input 
-                label="Numero de documento"
-                name="document_number"
-                type="number"
-                placeholder="88.888.888"
-                icon={faIdCard}
-                // required
-                // onChange={(value) => handleChange("full_name", value)}
-            />
+            <Input label="Numero de documento" name="document_number" type="number" icon={faIdCard} />
+            <Input label="CUIL" name="cuil" type="number" icon={faIdCard} />
 
-            <Input 
-                label="CUIL"
-                name="cuil"
-                type="number"
-                placeholder="88-88.888.888-8"
-                icon={faIdCard}
-                // required
-                // onChange={(value) => handleChange("full_name", value)}
-            />
-
+            {/* ENUM: ID igual al Nombre */}
             <Dropdown
                 label="Genero"
                 icon={faVenusMars}
                 name="gender"
-                // onChange={(value) => handleChange("job_type", value)}
                 placeholder="Seleccione el Genero"
-                // required
                 options={[
-                    {name:'Masculino', id:'1'}, 
-                    {name:'Femenino', id:'2'}, 
-                    {name:'No binario', id:'3'}, 
+                    {name:'Masculino', id:'Masculino'}, 
+                    {name:'Femenino', id:'Femenino'}, 
+                    {name:'No binario', id:'No binario'}, 
                 ]}
             />
 
+            {/* ENUM: ID igual al Nombre */}
             <Dropdown
                 label="Estado civil"
                 icon={faChurch}
                 name="marital_status"
-                // onChange={(value) => handleChange("job_type", value)}
                 placeholder="Seleccione el Estado civil"
-                // required
                 options={[
-                    {name:'Soltero', id:'1'}, 
-                    {name:'Casado', id:'2'}, 
-                    {name:'Divorciado', id:'3'}, 
-                    {name:'Viudo', id:'4'}, 
+                    {name:'Soltero', id:'Soltero'}, 
+                    {name:'Casado', id:'Casado'}, 
+                    {name:'Divorciado', id:'Divorciado'}, 
+                    {name:'Viudo', id:'Viudo'}, 
                 ]}
             />
 
-            <Input 
-                label="Fecha de nacimiento"
-                name="birthday"
-                type="date"
-                placeholder="88.888.888"
-                icon={faBirthdayCake}
-                // required
-                // onChange={(value) => handleChange("full_name", value)}
-            />
-
-            <Input 
-                label="Domicilio"
-                name="address"
-                type="text"
-                placeholder="..."
-                icon={faHouse}
-                // required
-                // onChange={(value) => handleChange("full_name", value)}
-            />
+            <Input label="Fecha de nacimiento" name="birthday" type="date" icon={faBirthdayCake} />
+            <Input label="Domicilio" name="address" type="text" icon={faHouse} />
         </div>
     )
 }
@@ -97,13 +61,13 @@ export function CreateEmployeeWorkerFormWork(){
     return(
         <div className="p-2 flex flex-col justify-center">
             <span className="text-primary font-bold text-center"> Obrero </span>
+            
+            {/* FK: ID numérico */}
             <Dropdown
                 label="Categoria"
                 icon={faLayerGroup}
                 name="category"
-                // onChange={(value) => handleChange("job_type", value)}
                 placeholder="Seleccione la Categoria"
-                // required
                 options={[
                     {name:'Capataz', id:'1'}, 
                     {name:'Oficial Especialista', id:'2'}, 
@@ -112,25 +76,23 @@ export function CreateEmployeeWorkerFormWork(){
                 ]}
             />
 
+            {/* FK: ID numérico */}
             <Dropdown
                 label="Sub-categoria"
                 icon={faSitemap}
                 name="subcategory"
-                // onChange={(value) => handleChange("job_type", value)}
                 placeholder="Seleccione la Sub-categoria"
-                // required
                 options={[
-                    {name:'...', id:'1'}, 
+                    {name:'UOCRA', id:'1'}, 
                 ]}
             />
 
+            {/* FK: ID numérico (Mapeado al campo 'field' de la DB) */}
             <Dropdown
                 label="Rubro"
                 icon={faSitemap}
                 name="field"
-                // onChange={(value) => handleChange("job_type", value)}
-                placeholder="Seleccione la Rubro"
-                // required
+                placeholder="Seleccione el Rubro"
                 options={[
                     {name:'Yesero', id:'1'}, 
                     {name:'Ceramista', id:'2'}, 
@@ -142,25 +104,8 @@ export function CreateEmployeeWorkerFormWork(){
                 ]}
             />
 
-            <Input 
-                label="Fecha de ingreso"
-                name="start_date"
-                type="date"
-                placeholder=""
-                icon={faCalendarPlus}
-                // required
-                // onChange={(value) => handleChange("full_name", value)}
-            />
-
-            <Input 
-                label="Fecha de ingreso Legal"
-                name="legal_start_date"
-                type="date"
-                placeholder=""
-                icon={faCalendarPlus}
-                // required
-                // onChange={(value) => handleChange("full_name", value)}
-            />
+            <Input label="Fecha de ingreso" name="start_date" type="date" icon={faCalendarPlus} />
+            <Input label="Fecha de ingreso Legal" name="legal_start_date" type="date" icon={faCalendarPlus} />
         </div>
     )
 }
@@ -169,35 +114,9 @@ export function CreateEmployeeWorkerFormContact(){
     return(
         <div className="p-2 flex flex-col justify-center">
             <span className="text-primary font-bold text-center"> Obrero </span>
-            <Input 
-                label="E-Mail"
-                name="email"
-                type="email"
-                placeholder="user@example.com"
-                icon={faEnvelope}
-                // required
-                // onChange={(value) => handleChange("full_name", value)}
-            />
-
-            <Input 
-                label="Numero de celular"
-                name="mobile_phone"
-                type="number"
-                placeholder="2648-888-888"
-                icon={faMobile}
-                // required
-                // onChange={(value) => handleChange("full_name", value)}
-            />
-
-            <Input 
-                label="Teléfono fijo"
-                name="landline_phone"
-                type="number"
-                placeholder="491-88-88"
-                icon={faPhone}
-                // required
-                // onChange={(value) => handleChange("full_name", value)}
-            />
+            <Input label="E-Mail" name="email" type="email" icon={faEnvelope} />
+            <Input label="Numero de celular" name="mobile_phone" type="number" icon={faMobile} />
+            <Input label="Teléfono fijo" name="landline_phone" type="number" icon={faPhone} />
         </div>
     )
 }

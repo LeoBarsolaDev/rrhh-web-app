@@ -15,21 +15,31 @@ export default function Form({ url, children, onSuccess, onError, className = "p
   
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        
         const formData = new FormData(e.currentTarget);
-        console.log(Object.fromEntries(formData));
+
+        // Comprobamos si hay algún archivo real en el FormData
+        const hasFiles = Array.from(formData.values()).some(
+            (value) => value instanceof File && value.name !== "" && value.size > 0
+        );
+
+        // Si NO hay archivos, convertimos a objeto plano para que Axios envíe JSON
+        // Si HAY archivos, enviamos el formData tal cual (Multipart)
+        const dataToSend = hasFiles ? formData : Object.fromEntries(formData.entries());
 
         try {
             let response: any;
+            const config = hasFiles ? { headers: { 'Content-Type': 'multipart/form-data' } } : {};
 
-            if(method.toLowerCase() == "post") response = await api.post(url, formData);
-            if(method.toLowerCase() == "put") response = await api.put(url, formData);
-            
+            if(method.toLowerCase() === "post") {
+                response = await api.post(url, dataToSend, config);
+            }
+            if(method.toLowerCase() === "put") {
+                response = await api.put(url, dataToSend, config);
+            }
 
             if (onSuccess) onSuccess(response);
-            
         } catch (error: any) {
-            console.error("Error en el formulario:", error.details || error.message);
+            console.error("Error en el formulario:", error);
             if (onError) onError(error);
         }
     };

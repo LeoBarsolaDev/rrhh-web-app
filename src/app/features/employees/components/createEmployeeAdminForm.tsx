@@ -6,13 +6,13 @@ export function CreateEmployeeAdminFormPersonal(){
     return(
         <div className="p-2 flex flex-col justify-center">
             <span className="text-primary font-bold text-center"> Administrativo </span>
+            
+            {/* FK: Mantiene IDs numéricos */}
             <Dropdown
                 label="Tipo de documento"
                 icon={faIdCard}
                 name="document_type"
-                // onChange={(value) => handleChange("job_type", value)}
                 placeholder="Seleccione el Tipo de documento"
-                // required
                 options={[
                     {name:'D.N.I - Documento Nacional de Identidad', id:'1'}, 
                     {name:'L.E - Libreta de Enrolamiento', id:'2'}, 
@@ -21,74 +21,38 @@ export function CreateEmployeeAdminFormPersonal(){
                 ]}
             />
 
-            <Input 
-                label="Numero de documento"
-                name="document_number"
-                type="number"
-                placeholder="88.888.888"
-                icon={faIdCard}
-                // required
-                // onChange={(value) => handleChange("full_name", value)}
-            />
+            <Input label="Numero de documento" name="document_number" type="number" icon={faIdCard} />
+            <Input label="CUIL" name="cuil" type="number" icon={faIdCard} />
 
-            <Input 
-                label="CUIL"
-                name="cuil"
-                type="number"
-                placeholder="80-88.888.888-8"
-                icon={faIdCard}
-                // required
-                // onChange={(value) => handleChange("full_name", value)}
-            />
-
+            {/* ENUM: ID igual al Nombre */}
             <Dropdown
                 label="Genero"
                 icon={faVenusMars}
                 name="gender"
-                // onChange={(value) => handleChange("job_type", value)}
                 placeholder="Seleccione el Genero"
-                // required
                 options={[
-                    {name:'Masculino', id:'1'}, 
-                    {name:'Femenino', id:'2'}, 
-                    {name:'No binario', id:'3'}, 
+                    {name:'Masculino', id:'Masculino'}, 
+                    {name:'Femenino', id:'Femenino'}, 
+                    {name:'No binario', id:'No binario'}, 
                 ]}
             />
 
+            {/* ENUM: ID igual al Nombre */}
             <Dropdown
                 label="Estado civil"
                 icon={faChurch}
                 name="marital_status"
-                // onChange={(value) => handleChange("job_type", value)}
                 placeholder="Seleccione el Estado civil"
-                // required
                 options={[
-                    {name:'Soltero', id:'1'}, 
-                    {name:'Casado', id:'2'}, 
-                    {name:'Divorciado', id:'3'}, 
-                    {name:'Viudo', id:'4'}, 
+                    {name:'Soltero', id:'Soltero'}, 
+                    {name:'Casado', id:'Casado'}, 
+                    {name:'Divorciado', id:'Divorciado'}, 
+                    {name:'Viudo', id:'Viudo'}, 
                 ]}
             />
 
-            <Input 
-                label="Fecha de nacimiento"
-                name="birthday"
-                type="date"
-                placeholder="88.888.888"
-                icon={faBirthdayCake}
-                // required
-                // onChange={(value) => handleChange("full_name", value)}
-            />
-
-            <Input 
-                label="Domicilio"
-                name="address"
-                type="text"
-                placeholder="..."
-                icon={faHouse}
-                // required
-                // onChange={(value) => handleChange("full_name", value)}
-            />
+            <Input label="Fecha de nacimiento" name="birthday" type="date" icon={faBirthdayCake} />
+            <Input label="Domicilio" name="address" type="text" icon={faHouse} />
         </div>
     )
 }
@@ -97,13 +61,11 @@ export function CreateEmployeeAdminFormWork(){
     return(
         <div className="p-2 flex flex-col justify-center">
             <span className="text-primary font-bold text-center"> Administrativo </span>
+            
+            {/* FKs: Mantienen IDs numéricos para relacionar con las tablas */}
             <Dropdown
                 label="Categoria"
-                icon={faLayerGroup}
                 name="category"
-                // onChange={(value) => handleChange("job_type", value)}
-                placeholder="Seleccione la Categoria"
-                // required
                 options={[
                     {name:'Administrativo', id:'1'}, 
                     {name:'Tecnico', id:'2'}, 
@@ -114,42 +76,27 @@ export function CreateEmployeeAdminFormWork(){
 
             <Dropdown
                 label="Sub-categoria"
-                icon={faSitemap}
                 name="subcategory"
-                // onChange={(value) => handleChange("job_type", value)}
-                placeholder="Seleccione la Sub-categoria"
-                // required
                 options={[
-                    {name:'...', id:'1'}, 
+                    {name:'Efectivo', id:'1'}, 
+                    {name:'Contratado', id:'2'}, 
                 ]}
             />
 
             <Dropdown
                 label="Area"
-                icon={faBuilding}
-                name="subcategory"
-                // onChange={(value) => handleChange("job_type", value)}
-                placeholder="Seleccione la Area"
-                // required
+                name="area" // Corregido el name
                 options={[
                     {name:'Emprendedora', id:'1'}, 
                     {name:'Constructora', id:'2'}, 
-                    {name:'Obra', id:'3'}, 
-                    {name:'Deposito', id:'4'}, 
-                    {name:'Subcontratista', id:'5'}, 
-                    {name:'Inmobiliaria', id:'6'}, 
-                    {name:'Adm. Servicios', id:'7'}, 
-                    {name:'Proyecto', id:'8'}, 
+                    {name:'Obra', id:'3'},
+                    // ... etc
                 ]}
             />
 
             <Dropdown
                 label="Departamento"
-                icon={faUsers}
                 name="department"
-                // onChange={(value) => handleChange("job_type", value)}
-                placeholder="Seleccione el Departamento"
-                // required
                 options={[
                     {name:'Finanzas', id:'1'}, 
                     {name:'Recursos Humanos', id:'2'}, 
@@ -158,19 +105,10 @@ export function CreateEmployeeAdminFormWork(){
                 ]}
             />
 
-            <Input 
-                label="Fecha de ingreso"
-                name="start_date"
-                type="date"
-                placeholder=""
-                icon={faCalendarPlus}
-                // required
-                // onChange={(value) => handleChange("full_name", value)}
-            />
+            <Input label="Fecha de ingreso" name="start_date" type="date" icon={faCalendarPlus} />
         </div>
     )
 }
-
 export function CreateEmployeeAdminFormContact(){
     return(
         <div className="p-2 flex flex-col justify-center">
