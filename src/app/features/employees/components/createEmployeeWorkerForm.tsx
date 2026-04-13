@@ -13,6 +13,7 @@ export function CreateEmployeeWorkerFormPersonal(){
                 icon={faIdCard}
                 name="document_type"
                 placeholder="Seleccione el Tipo de documento"
+                required
                 options={[
                     {name:'D.N.I - Documento Nacional de Identidad', id:'1'}, 
                     {name:'L.E - Libreta de Enrolamiento', id:'2'}, 
@@ -21,8 +22,8 @@ export function CreateEmployeeWorkerFormPersonal(){
                 ]}
             />
 
-            <Input label="Numero de documento" name="document_number" type="number" icon={faIdCard} />
-            <Input label="CUIL" name="cuil" type="number" icon={faIdCard} />
+            <Input required placeholder="88.888.888" label="Numero de documento" name="document_number" type="number" icon={faIdCard} />
+            <Input required placeholder="80-88.888.888-8" label="CUIL" name="cuil" type="number" icon={faIdCard} />
 
             {/* ENUM: ID igual al Nombre */}
             <Dropdown
@@ -30,6 +31,7 @@ export function CreateEmployeeWorkerFormPersonal(){
                 icon={faVenusMars}
                 name="gender"
                 placeholder="Seleccione el Genero"
+                required
                 options={[
                     {name:'Masculino', id:'Masculino'}, 
                     {name:'Femenino', id:'Femenino'}, 
@@ -43,6 +45,7 @@ export function CreateEmployeeWorkerFormPersonal(){
                 icon={faChurch}
                 name="marital_status"
                 placeholder="Seleccione el Estado civil"
+                required
                 options={[
                     {name:'Soltero', id:'Soltero'}, 
                     {name:'Casado', id:'Casado'}, 
@@ -51,8 +54,8 @@ export function CreateEmployeeWorkerFormPersonal(){
                 ]}
             />
 
-            <Input label="Fecha de nacimiento" name="birthday" type="date" icon={faBirthdayCake} />
-            <Input label="Domicilio" name="address" type="text" icon={faHouse} />
+            <Input required label="Fecha de nacimiento" name="birthday" type="date" icon={faBirthdayCake} />
+            <Input required placeholder="..." label="Domicilio" name="address" type="text" icon={faHouse} />
         </div>
     )
 }
@@ -68,6 +71,7 @@ export function CreateEmployeeWorkerFormWork(){
                 icon={faLayerGroup}
                 name="category"
                 placeholder="Seleccione la Categoria"
+                required
                 options={[
                     {name:'Capataz', id:'1'}, 
                     {name:'Oficial Especialista', id:'2'}, 
@@ -82,6 +86,7 @@ export function CreateEmployeeWorkerFormWork(){
                 icon={faSitemap}
                 name="subcategory"
                 placeholder="Seleccione la Sub-categoria"
+                required
                 options={[
                     {name:'UOCRA', id:'1'}, 
                 ]}
@@ -93,6 +98,7 @@ export function CreateEmployeeWorkerFormWork(){
                 icon={faSitemap}
                 name="field"
                 placeholder="Seleccione el Rubro"
+                required
                 options={[
                     {name:'Yesero', id:'1'}, 
                     {name:'Ceramista', id:'2'}, 
@@ -104,8 +110,8 @@ export function CreateEmployeeWorkerFormWork(){
                 ]}
             />
 
-            <Input label="Fecha de ingreso" name="start_date" type="date" icon={faCalendarPlus} />
-            <Input label="Fecha de ingreso Legal" name="legal_start_date" type="date" icon={faCalendarPlus} />
+            <Input required label="Fecha de ingreso" name="start_date" type="date" icon={faCalendarPlus} />
+            <Input required label="Fecha de ingreso Legal" name="legal_start_date" type="date" icon={faCalendarPlus} />
         </div>
     )
 }
@@ -114,9 +120,9 @@ export function CreateEmployeeWorkerFormContact(){
     return(
         <div className="p-2 flex flex-col justify-center">
             <span className="text-primary font-bold text-center"> Obrero </span>
-            <Input label="E-Mail" name="email" type="email" icon={faEnvelope} />
-            <Input label="Numero de celular" name="mobile_phone" type="number" icon={faMobile} />
-            <Input label="Teléfono fijo" name="landline_phone" type="number" icon={faPhone} />
+            <Input placeholder="user@example.com" label="E-Mail" name="email" type="email" icon={faEnvelope} />
+            <Input placeholder="2646888888" required label="Numero de celular" name="mobile_phone" type="number" icon={faMobile} />
+            <Input placeholder="4918888" label="Teléfono fijo" name="landline_phone" type="number" icon={faPhone} />
         </div>
     )
 }

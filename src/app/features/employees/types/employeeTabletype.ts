@@ -6,7 +6,7 @@ export interface EmployeeTableType {
   "Nombre completo": string;
   "Rubro": string;
   "Categoria": string;
-  "Estado": "Activo" | "Inactivo";
+  "Estado": "Activo" | "De baja";
 }
 
 export type CreateEmployeeInput = Omit<EmployeeType, 'id' | 'area_name' | 'category_name' | 'department_name'>;

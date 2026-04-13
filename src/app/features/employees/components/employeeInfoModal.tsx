@@ -30,6 +30,7 @@ export default function EmployeeInfoModal({open, setOpen, employee} : props){
                 [&::-webkit-scrollbar-thumb]:bg-primary/20
                 [&::-webkit-scrollbar-thumb]:rounded-full
                 hover:[&::-webkit-scrollbar-thumb]:bg-primary/50
+                mt-8
             ">
                 
                 {employee !== null ?

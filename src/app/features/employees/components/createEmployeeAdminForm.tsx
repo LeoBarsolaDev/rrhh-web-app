@@ -13,6 +13,7 @@ export function CreateEmployeeAdminFormPersonal(){
                 icon={faIdCard}
                 name="document_type"
                 placeholder="Seleccione el Tipo de documento"
+                required
                 options={[
                     {name:'D.N.I - Documento Nacional de Identidad', id:'1'}, 
                     {name:'L.E - Libreta de Enrolamiento', id:'2'}, 
@@ -21,8 +22,8 @@ export function CreateEmployeeAdminFormPersonal(){
                 ]}
             />
 
-            <Input label="Numero de documento" name="document_number" type="number" icon={faIdCard} />
-            <Input label="CUIL" name="cuil" type="number" icon={faIdCard} />
+            <Input required label="Numero de documento" placeholder="88.888.888" name="document_number" type="number" icon={faIdCard} />
+            <Input required label="CUIL" placeholder="80-88.888.888-8" name="cuil" type="number" icon={faIdCard} />
 
             {/* ENUM: ID igual al Nombre */}
             <Dropdown
@@ -30,6 +31,7 @@ export function CreateEmployeeAdminFormPersonal(){
                 icon={faVenusMars}
                 name="gender"
                 placeholder="Seleccione el Genero"
+                required
                 options={[
                     {name:'Masculino', id:'Masculino'}, 
                     {name:'Femenino', id:'Femenino'}, 
@@ -42,6 +44,7 @@ export function CreateEmployeeAdminFormPersonal(){
                 label="Estado civil"
                 icon={faChurch}
                 name="marital_status"
+                required
                 placeholder="Seleccione el Estado civil"
                 options={[
                     {name:'Soltero', id:'Soltero'}, 
@@ -51,8 +54,8 @@ export function CreateEmployeeAdminFormPersonal(){
                 ]}
             />
 
-            <Input label="Fecha de nacimiento" name="birthday" type="date" icon={faBirthdayCake} />
-            <Input label="Domicilio" name="address" type="text" icon={faHouse} />
+            <Input required label="Fecha de nacimiento" name="birthday" type="date" icon={faBirthdayCake} />
+            <Input required label="Domicilio" placeholder="Calle falsa 123" name="address" type="text" icon={faHouse} />
         </div>
     )
 }
@@ -72,40 +75,55 @@ export function CreateEmployeeAdminFormWork(){
                     {name:'Vendedor', id:'3'}, 
                     {name:'Maestranza', id:'4'},
                 ]}
+                required
             />
 
             <Dropdown
                 label="Sub-categoria"
                 name="subcategory"
+                required
                 options={[
-                    {name:'Efectivo', id:'1'}, 
-                    {name:'Contratado', id:'2'}, 
+                    {name:'...', id:'1'}, 
                 ]}
             />
 
             <Dropdown
                 label="Area"
                 name="area" // Corregido el name
+                required
                 options={[
-                    {name:'Emprendedora', id:'1'}, 
-                    {name:'Constructora', id:'2'}, 
-                    {name:'Obra', id:'3'},
-                    // ... etc
+                    {name:'EMPRENDEDORA', id:'1'}, 
+                    {name:'CONSTRUCTORA', id:'2'}, 
+                    {name:'INMOBILIARIA', id:'3'},
+                    {name:'ADM SERVICIOS', id:'4'},
+                    {name:'OBRA', id:'5'},
+                    {name:'DEPOSITO', id:'6'},
+                    {name:'SUBCONTRATISTA', id:'7'},
+                    {name:'PROYECTO', id:'8'},
                 ]}
             />
 
             <Dropdown
                 label="Departamento"
                 name="department"
+                required
                 options={[
-                    {name:'Finanzas', id:'1'}, 
-                    {name:'Recursos Humanos', id:'2'}, 
-                    {name:'Comunicación', id:'3'}, 
-                    {name:'Informática', id:'4'}, 
+                    { name: 'OFICINA CENTRAL', id: "1" },
+                    { name: 'FINANZAS', id: "2" },
+                    { name: 'RRHH', id: "3" },
+                    { name: 'COMUNICACIÓN', id: "4" },
+                    { name: 'INFORMATICA', id: "5" },
+                    { name: 'COMPRAS', id: "6" },
+                    { name: 'TÉCNICA', id: "7" },
+                    { name: 'VENDEDOR', id: "8" },
+                    { name: 'ADMIN INMOBILIARIA', id: "9" },
+                    { name: 'ADMIN SERVICIOS', id: "10" },
+                    { name: 'MANTENIMIENTO', id: "11" },
                 ]}
             />
 
-            <Input label="Fecha de ingreso" name="start_date" type="date" icon={faCalendarPlus} />
+            <Input required label="Fecha de ingreso" name="start_date" type="date" icon={faCalendarPlus} />
+            <Input required label="Fecha de ingreso (Legal)" name="legal_start_date" type="date" icon={faCalendarPlus} />
         </div>
     )
 }
@@ -119,8 +137,7 @@ export function CreateEmployeeAdminFormContact(){
                 type="email"
                 placeholder="user@example.com"
                 icon={faEnvelope}
-                // required
-                // onChange={(value) => handleChange("full_name", value)}
+                required
             />
 
             <Input 
@@ -129,8 +146,7 @@ export function CreateEmployeeAdminFormContact(){
                 type="number"
                 placeholder="2648-888-888"
                 icon={faMobile}
-                // required
-                // onChange={(value) => handleChange("full_name", value)}
+                required
             />
 
             <Input 
@@ -139,8 +155,6 @@ export function CreateEmployeeAdminFormContact(){
                 type="number"
                 placeholder="491-88-88"
                 icon={faPhone}
-                // required
-                // onChange={(value) => handleChange("full_name", value)}
             />
         </div>
     )

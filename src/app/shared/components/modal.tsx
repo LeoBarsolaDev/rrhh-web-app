@@ -40,19 +40,18 @@ export default function Modal({open, children ,setOpen, styles="", width=""} : M
             <div
                 className={`
                     bg-frame 
-                    w-11/12 md:w-8/10 
-                    max-h-9/10
+                    
                     flex flex-col 
-                    md:p-4 p-2 rounded-xl shadow-2xl
+                    md:py-2 md:px-4 p-2 rounded-xl shadow-2xl
                     m-8
-                    ${width} ${styles}
+                    ${width === "" ? "w-11/12 md:w-8/10 max-h-9/10" : width} ${styles}
                 `}
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Cabecera: Siempre visible, no scrollea */}
-                <div className="w-full text-right shrink-0 mb-2">
+                <div className="w-full text-right shrink-0 relative">
                     <button
-                        className="text-foreground hover:text-red-800 transition-all p-1"
+                        className="text-foreground hover:text-red-800 transition-all absolute md:top-1 md:-right-2 top-0 right-0"
                         onClick={() => setOpen(false)}
                     >
                         <FontAwesomeIcon icon={faXmark} size="lg" />

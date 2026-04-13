@@ -1,7 +1,9 @@
+import { Alert } from "../../../shared/components/alert";
 import { Button } from "../../../shared/components/button";
 import Form from "../../../shared/components/form";
 import Modal from "../../../shared/components/modal";
 import { Step, Wizard } from "../../../shared/components/wizard";
+import useEditModal from "../hooks/useEditModal";
 import { EditEmployeeContact, EditEmployeeFormAdminWork, EditEmployeeFormPersonal, EditEmployeeFormWorkerWork } from "./employeeEditModalForms";
 
 export interface props {
@@ -11,6 +13,16 @@ export interface props {
 }
 
 export default function EmployeeEditModal({open, setOpen, employee} : props){
+    const {
+        isSending,
+        alertOpen,
+        message,
+        alertType,
+        setAlertOpen,
+        onSuccess,
+        onError,
+    } = useEditModal()
+
     return(
         <Modal open={open} setOpen={setOpen} >
             <div className="
@@ -25,26 +37,33 @@ export default function EmployeeEditModal({open, setOpen, employee} : props){
                 [&::-webkit-scrollbar-thumb]:rounded-full
                 hover:[&::-webkit-scrollbar-thumb]:bg-primary/50
             ">
+                <Alert show={alertOpen} type={alertType === "success" ? "success" : "error"} onClose={() => {setAlertOpen(false)}}>
+                    {message}
+                </Alert>
                 {employee !== null ? (
-                    <Form url="/">
+                    <Form url="/rrhh/employees" method="PATCH" onError={onError} onSuccess={onSuccess}>
+                        
                         <Wizard>
                             <Step name="Información Personal">
                                 <span className="text-primary text-2xl font-bold text-center"> {employee.type} </span>
                                     <EditEmployeeFormPersonal employee={employee} />
-                                    <Button type="submit" rounded wide> Guardar </Button>
+                                    <input type="hidden" name="emp_id" defaultValue={employee.id} />
+                                    <Button type="submit" rounded wide> { isSending ? "Guardando..." : "Guardar" } </Button>
                             </Step>
 
                             <Step name="Información Laboral">
                                 <span className="text-primary text-2xl font-bold text-center"> {employee.type} </span>
-                                    {employee.type === "Administrativo" && <EditEmployeeFormAdminWork />}
-                                    {employee.type === "Obrero" && <EditEmployeeFormWorkerWork />}
-                                    <Button type="submit" rounded wide> Guardar </Button>
+                                    {employee.type === "Administrativo" && <EditEmployeeFormAdminWork employee={employee} />}
+                                    {employee.type === "Obrero" && <EditEmployeeFormWorkerWork employee={employee} />}
+                                    <input type="hidden" name="emp_id" defaultValue={employee.id} />
+                                    <Button type="submit" rounded wide> { isSending ? "Guardando..." : "Guardar" } </Button>
                             </Step>
 
                             <Step name="Información de Contacto">
                                 <span className="text-primary text-2xl font-bold text-center"> {employee.type} </span>
-                                    <EditEmployeeContact />
-                                    <Button type="submit" rounded wide> Guardar </Button>
+                                    <EditEmployeeContact employee={employee} />
+                                    <input type="hidden" name="emp_id" defaultValue={employee.id} />
+                                    <Button type="submit" rounded wide> { isSending ? "Guardando..." : "Guardar" } </Button>
                             </Step>
                         </Wizard>
                     </Form>

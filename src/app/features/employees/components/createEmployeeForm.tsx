@@ -37,8 +37,7 @@ export default function CreateEmployeeForm(){
                                 type="text"
                                 placeholder="John Doe"
                                 icon={faUser}
-                                // required
-                                // onChange={(value) => handleChange("full_name", value)}
+                                required
                             />
 
                             <Input 
@@ -47,8 +46,7 @@ export default function CreateEmployeeForm(){
                                 type="number"
                                 placeholder="00000000"
                                 icon={faBoxArchive}
-                                // onChange={(value) => handleChange("file_number", value)}
-                                // required
+                                required
                             />
                         </div>
                         <span className="text-primary font-bold text-center">
@@ -56,17 +54,17 @@ export default function CreateEmployeeForm(){
                         </span>
                         <div className="flex justify-center gap-4">
                             <Radio
-                                value="1"
+                                value="Administrativo"
                                 selected={employee_type}
                                 onChange={setEmployeeType}
                                 name="type"
-                                // required
+                                required
                             >
                                 <span>Administrativo/a</span>
                             </Radio>
 
                             <Radio
-                                value="2"
+                                value="Obrero"
                                 selected={employee_type}
                                 onChange={setEmployeeType}
                                 name="type"
@@ -79,20 +77,20 @@ export default function CreateEmployeeForm(){
                 </Step>
 
                 <Step name="Información personal">
-                    {employee_type === "1" && <CreateEmployeeAdminFormPersonal />}
-                    {employee_type === "2" && <CreateEmployeeWorkerFormPersonal />}
+                    {employee_type === "Administrativo" && <CreateEmployeeAdminFormPersonal />}
+                    {employee_type === "Obrero" && <CreateEmployeeWorkerFormPersonal />}
                 </Step>
 
                 <Step name="Información laboral">
-                    {employee_type === "1" && <CreateEmployeeAdminFormWork />}
-                    {employee_type === "2" && <CreateEmployeeWorkerFormWork />}
+                    {employee_type === "Administrativo" && <CreateEmployeeAdminFormWork />}
+                    {employee_type === "Obrero" && <CreateEmployeeWorkerFormWork />}
                 </Step>
 
                 <Step name="Información de contacto">
-                    {employee_type === "1" && <CreateEmployeeAdminFormContact />}
-                    {employee_type === "2" && <CreateEmployeeWorkerFormContact />}
+                    {employee_type === "Administrativo" && <CreateEmployeeAdminFormContact />}
+                    {employee_type === "Obrero" && <CreateEmployeeWorkerFormContact />}
 
-                    <Button type="submit" wide> Guardar empleado </Button>
+                    <Button type="submit" wide> {isSending ? "Guardando..." : "Guardar empleado"} </Button>
                 </Step>
             </Wizard>
         </Form>

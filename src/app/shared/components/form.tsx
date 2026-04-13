@@ -33,8 +33,8 @@ export default function Form({ url, children, onSuccess, onError, className = "p
             if(method.toLowerCase() === "post") {
                 response = await api.post(url, dataToSend, config);
             }
-            if(method.toLowerCase() === "put") {
-                response = await api.put(url, dataToSend, config);
+            if(method.toLowerCase() === "patch") {
+                response = await api.patch(url, dataToSend, config);
             }
 
             if (onSuccess) onSuccess(response);

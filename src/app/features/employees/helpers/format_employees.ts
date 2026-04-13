@@ -8,6 +8,6 @@ export default function format_employees (employees: EmployeeType[]): EmployeeTa
         "Nombre completo": emp.full_name,
         "Rubro": emp.area_name || "Sin Área",
         "Categoria": emp.category_name || "Sin Categoría",
-        "Estado": emp.separation_date ? "Inactivo" : "Activo",
+        "Estado": emp.status,
     }));
 };

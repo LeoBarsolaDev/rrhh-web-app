@@ -9,6 +9,7 @@ import { useState } from "react";
 export default function EmployeesPage(){
     const [infoModalOpen, setInfoModalOpen] = useState<boolean>(false);
     const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
+    const [statusModalOpen, setStatusModalOpen] = useState<boolean>(false);
     const [selectedRow, setSelectedRow] = useState<number | null>(null);
 
     return(
@@ -52,7 +53,16 @@ export default function EmployeesPage(){
                         </span>
                     </div>
                     <div className="p-4">
-                        <EmployeeTable selectedRow={selectedRow} setSelectedRow={setSelectedRow} infoModalOpen={infoModalOpen} infoModalSetOpen={setInfoModalOpen} editModalOpen={editModalOpen} editModalSetOpen={setEditModalOpen} />
+                        <EmployeeTable 
+                            selectedRow={selectedRow} 
+                            setSelectedRow={setSelectedRow} 
+                            infoModalOpen={infoModalOpen} 
+                            infoModalSetOpen={setInfoModalOpen} 
+                            editModalOpen={editModalOpen} 
+                            editModalSetOpen={setEditModalOpen}
+                            statusModalOpen={statusModalOpen} 
+                            setStatusModalOpen={setStatusModalOpen}
+                        />
                     </div>
                     
                     <div className="
@@ -69,7 +79,7 @@ export default function EmployeesPage(){
                             <FontAwesomeIcon icon={faPencil} />  Editar
                         </Button>
 
-                        <Button color="delete" rounded disabled={selectedRow === null}>
+                        <Button color="delete" rounded onClick={() => { setStatusModalOpen(true) }} disabled={selectedRow === null}>
                             <FontAwesomeIcon icon={faUserSlash} />  Editar Baja
                         </Button>
                     </div>

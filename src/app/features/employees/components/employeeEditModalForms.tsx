@@ -59,25 +59,21 @@ export function EditEmployeeFormPersonal({employee} : {employee:EmployeeType}){
                 label="Domicilio"
                 name="address"
                 type="text"
-                // placeholder={employee.marital_status.toString()}
+                placeholder={employee.address.toString()}
                 icon={faHouse}
-                // required
-                // onChange={(value) => handleChange("full_name", value)}
             />
         </div>
     )
 }
 
-export function EditEmployeeFormWorkerWork(){
+export function EditEmployeeFormWorkerWork({employee} : {employee:EmployeeType}){
     return(
         <div className="flex flex-col justify-center mb-2">
             <Dropdown
                 label="Categoria"
                 icon={faLayerGroup}
                 name="category"
-                // onChange={(value) => handleChange("job_type", value)}
-                placeholder="Seleccione la Categoria"
-                // required
+                placeholder={employee.category_name?.toString()}
                 options={[
                     {name:'Capataz', id:'1'}, 
                     {name:'Oficial Especialista', id:'2'}, 
@@ -89,10 +85,8 @@ export function EditEmployeeFormWorkerWork(){
             <Dropdown
                 label="Sub-categoria"
                 icon={faSitemap}
+                placeholder={employee.subcategory_name?.toString()}
                 name="subcategory"
-                // onChange={(value) => handleChange("job_type", value)}
-                placeholder="Seleccione la Sub-categoria"
-                // required
                 options={[
                     {name:'...', id:'1'}, 
                 ]}
@@ -102,9 +96,7 @@ export function EditEmployeeFormWorkerWork(){
                 label="Rubro"
                 icon={faSitemap}
                 name="field"
-                // onChange={(value) => handleChange("job_type", value)}
-                placeholder="Seleccione la Rubro"
-                // required
+                placeholder={employee.field_name?.toString()}
                 options={[
                     {name:'Yesero', id:'1'}, 
                     {name:'Ceramista', id:'2'}, 
@@ -120,16 +112,13 @@ export function EditEmployeeFormWorkerWork(){
                 label="Fecha de ingreso Legal"
                 name="legal_start_date"
                 type="date"
-                placeholder=""
                 icon={faCalendarPlus}
-                // required
-                // onChange={(value) => handleChange("full_name", value)}
             />
         </div>
     )
 }
 
-export function EditEmployeeFormAdminWork(){
+export function EditEmployeeFormAdminWork({employee} : {employee:EmployeeType}){
     return(
         <div className="flex flex-col justify-center mb-2">
             <Dropdown
@@ -206,7 +195,7 @@ export function EditEmployeeFormAdminWork(){
     )
 }
 
-export function EditEmployeeContact(){
+export function EditEmployeeContact({employee} : {employee:EmployeeType}){
     return(
         <div className="flex flex-col justify-center mb-2">
             <Input 

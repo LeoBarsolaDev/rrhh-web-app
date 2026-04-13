@@ -24,14 +24,13 @@ async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promi
         const errorData = await response.json().catch(() => ({}));
 
         // 2. Creamos un objeto de error que mantenga la estructura de la API
-        // Esto permite que useLogin lea error.response.data.error.message
-        const customError: any = new Error(errorData.error?.message || 'Error en la petición');
-        customError.response = { data: errorData }; // Simulamos la estructura de Axios
+        const error = new Error(errorData.error || 'Error en la petición');
         
-        throw customError;
+        (error as any).data = errorData; 
+        (error as any).status = response.status;
+        
+        throw error;
     }
-
-    return response.json();
 
     return response.json();
 }
@@ -39,6 +38,7 @@ async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promi
 // Helpers para métodos comunes
 export const api = {
     get: <T>(endpoint: string) => apiRequest<T>(endpoint, { method: 'GET' }),
+    delete: <T>(endpoint: string) => apiRequest<T>(endpoint, { method: 'DELETE' }),
     post: <T>(endpoint: string, body: any) => apiRequest<T>(endpoint, { 
         method: 'POST', 
         body: JSON.stringify(body) 
@@ -47,5 +47,8 @@ export const api = {
         method: 'PUT', 
         body: JSON.stringify(body) 
     }),
-    delete: <T>(endpoint: string) => apiRequest<T>(endpoint, { method: 'DELETE' }),
+    patch: <T>(endpoint: string, body: any) => apiRequest<T>(endpoint, { 
+        method: 'PATCH', 
+        body: JSON.stringify(body) 
+    }),
 };

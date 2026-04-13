@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function useCreateEmployeeForm(){
+export default function useEditModal(){
     const [isSending, setIsSending] = useState<boolean>(false);
     const [alertOpen, setAlertOpen] = useState<boolean>(false);
     const [alertType, setAlertType] = useState<string>("");
@@ -10,7 +10,7 @@ export default function useCreateEmployeeForm(){
         setIsSending(true);
         setAlertOpen(true);
         setAlertType("success")
-        setMessage("Empleado creado con exito.");
+        setMessage("El Empleado fué Actualizado.");
 
         setTimeout(() => {window.location.reload();}, 2500);
     }

@@ -40,13 +40,13 @@ export function Wizard({ children }: { children: React.ReactNode }) {
                 <span className={`w-8 h-8 flex justify-center items-center rounded-full text-secondary font-black sm:mb-0 mb-8 transition-all duration-200 ${i <= index ? "bg-primary text-white" : "bg-foreground text-background"}`}>
                 {i + 1}
                 </span>
-                <span className={`font-bold sm:block hidden transition-all duration-200 ${i <= index ? "text-primary" : "text-foreground"}`}>
+                <span className={`font-bold sm:block text-center hidden transition-all duration-200 ${i <= index ? "text-primary" : "text-foreground"}`}>
                 {step.props.name}
                 </span>
             </span>
             ))}
         </div>
-
+        <h4 className="text-center text-primary uppercase font-bold sm:hidden block">{steps[index].props.name}</h4>
         <hr className="border-secondary my-4" />
 
         {/* RENDERIZADO DE PASOS: Ahora no se desmontan */}

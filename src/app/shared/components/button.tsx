@@ -46,7 +46,7 @@ export function Button({
             ${bg}
             ${style}
             ${wide ? "w-full" : ""}
-            ${rounded ? "rounded-2xl" : ""}
+            ${rounded ? "rounded-xl" : ""}
             ${disabled ? "opacity-50 cursor-not-allowed" : "hover:brightness-110 hover:cursor-pointer"}
             transition-all duration-150
             text-lg

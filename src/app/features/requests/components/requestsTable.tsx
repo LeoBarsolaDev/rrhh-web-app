@@ -21,14 +21,20 @@ export default function RequestsTable(){
 
     return(
         <div className="flex flex-col p-4 gap-2">
-            {requests.map((req) => (
-                <span key={req.id}>
-                    <RequestsCard 
-                        request={req}
-                        onClick={() => handleOpen(req)}
-                    />
-                </span>
-            ))}
+            {requests.length !== 0 ?
+            <>
+                {requests.map((req) => (
+                    <span key={req.id}>
+                        <RequestsCard 
+                            request={req}
+                            onClick={() => handleOpen(req)}
+                        />
+                    </span>
+                ))}
+            </>
+            : 
+            <h2 className="text-lg font-bold text-placeholder"> No hay Solicitudes Registradas</h2>
+            }
 
             <RequestModal open={openModal} setOpen={setOpenModal} request={selectedRequest} />
         </div>

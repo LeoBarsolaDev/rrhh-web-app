@@ -12,14 +12,17 @@ export interface EmployeeType {
     cuil: number;
     marital_status: 'Soltero' | 'Casado' | 'Divorciado' | 'Viudo';
     address: string;
+    status: "Activo" | "De baja"
     category: number;
     category_name?: string; // Viene del to_dict con relación
     subcategory: number;
+    subcategory_name: string;
     area: number;
     area_name?: string; // Viene del to_dict con relación
     department: number;
     department_name?: string; // Viene del to_dict con relación
     field: number | null;
+    field_name: string | null;
     start_date: string;
     legal_start_date: string;
     email: string | null;

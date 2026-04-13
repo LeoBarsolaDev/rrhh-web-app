@@ -14,7 +14,7 @@ export function Alert({
     show = false,
     type = "",
     onClose,
-    duration = 3000, // default 3 segundos
+    duration = 2000, // default 3 segundos
     }: AlertProps) {
         useEffect(() => {
         if (show && onClose) {

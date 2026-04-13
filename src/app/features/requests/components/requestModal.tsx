@@ -4,6 +4,9 @@ import Modal from "../../../shared/components/modal";
 import type { Requests } from "../types/requestsType";
 import { RenderRequestModule, RequestAdvancesLoans, RequestGeneralInquiry, RequestLeavesOfAbsence, RequestPermits, RequestSickness } from "./requestModules";
 import { faCheck, faCheckDouble, faCross, faPencil, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
+import useRequestModal from "../hooks/useRequestModal";
+import { Alert } from "../../../shared/components/alert";
 
 export default function RequestModal({request, open, setOpen} : {request:Requests | null, open:boolean, setOpen: (value: boolean) => void;}){
     const InfoField = ({ label, value }: { label: string; value: string | number | null | undefined }) => (
@@ -25,8 +28,19 @@ export default function RequestModal({request, open, setOpen} : {request:Request
         { label: "Prioridad", value: request?.priority },
         { label: "Razón", value: request?.reason },
     ];
+    const {
+        openPriority,
+        alertOpen,
+        alertMessage,
+        alertType,
+        setOpenPriority,
+        handleEditRequest,
+        setAlertOpen
+    } = useRequestModal()
+
     return(
         <Modal open={open} setOpen={setOpen} >
+            <Alert show={alertOpen} onClose={() => {setAlertOpen(false)}} type={alertType}> {alertMessage} </Alert>
             <div className="
                 w-full py-2 px-0 flex flex-col gap-0 h-full
                 /* Configuración de Scroll */
@@ -78,13 +92,26 @@ export default function RequestModal({request, open, setOpen} : {request:Request
 
                 <div className="flex gap-2 w-full flex-col md:flex-row">
                     <div className="bg-secondary py-2 px-4 rounded-2xl mt-2 w-full flex gap-2 flex-col sm:flex-row">
-                        <Button wide rounded color="edit"> <FontAwesomeIcon icon={faPencil} /> Editar Prioridad </Button> 
-                        <Button wide rounded color="clean"> <FontAwesomeIcon icon={faCheckDouble} /> Revisado </Button> 
+                        <div className="relative w-full">
+                            <div className={`
+                                absolute -top-46
+                                bg-accent/50 rounded-lg w-full
+                                border-4 border-accent origin-bottom
+                                ${openPriority ? "scale-y-100" : "scale-y-0"}    
+                            `}>
+                                <div onClick={() => { handleEditRequest({req_id: request?.id, priority: "Baja"}, "La prioridad de la Solicitud fué Actualizada.") }} className="w-full rounded-t-lg text-center p-2 hover:bg-accent hover:cursor-pointer hover:tracking-wider"> Baja </div>
+                                <div onClick={() => { handleEditRequest({req_id: request?.id, priority: "Media"}, "La prioridad de la Solicitud fué Actualizada.") }} className="w-full text-center p-2 hover:bg-accent hover:cursor-pointer hover:tracking-wider"> Media </div>
+                                <div onClick={() => { handleEditRequest({req_id: request?.id, priority: "Alta"}, "La prioridad de la Solicitud fué Actualizada.") }} className="w-full text-center p-2 hover:bg-accent hover:cursor-pointer hover:tracking-wider"> Alta </div>
+                                <div onClick={() => { handleEditRequest({req_id: request?.id, priority: "Urgente"}, "La prioridad de la Solicitud fué Actualizada.") }} className="w-full rounded-b-lg text-center p-2 hover:bg-accent hover:cursor-pointer hover:tracking-wider"> Urgente </div>
+                            </div>
+                            <Button wide rounded color="edit" onClick={() => {setOpenPriority(!openPriority)}}> <FontAwesomeIcon icon={faPencil} /> Editar Prioridad </Button> 
+                        </div>
+                        <Button wide rounded color="clean" onClick={() => { handleEditRequest({req_id: request?.id, status: "En revision"}, "La Solicitud ahora está en revisión") }}> <FontAwesomeIcon icon={faCheckDouble} /> Revisado </Button> 
                     </div>
 
                     <div className="bg-secondary py-2 px-4 rounded-2xl mt-2 w-full flex gap-2 flex-col sm:flex-row">
-                        <Button wide rounded color="done"> <FontAwesomeIcon icon={faCheck} /> Aceptar Solicitud </Button> 
-                        <Button wide rounded color="delete"> <FontAwesomeIcon icon={faXmark} /> Rechazar Solicitud </Button> 
+                        <Button wide rounded color="done" onClick={() => { handleEditRequest({req_id: request?.id, status: "Aprobada"}, "La Solicitud fué Aprobada") }}> <FontAwesomeIcon icon={faCheck} /> Aceptar Solicitud </Button> 
+                        <Button wide rounded color="delete" onClick={() => { handleEditRequest({req_id: request?.id, status: "Rechazada"}, "La Solicitud fué Rechazada") }}> <FontAwesomeIcon icon={faXmark} /> Rechazar Solicitud </Button> 
                     </div>
                 </div>
             </div>

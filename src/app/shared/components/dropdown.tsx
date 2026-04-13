@@ -117,10 +117,11 @@ export default function Dropdown({
                     </span>
                 )}
 
-                <span className="
-                    text-placeholder group-focus-within:text-primary
+                <span className={`
+                    group-focus-within:text-primary
                     transition-all
-                ">
+                    ${selectedOption?.name ? "text-foreground" : "text-placeholder"}    
+                `}>
                     {selectedOption?.name || placeholder}
                 </span>
             </div>
