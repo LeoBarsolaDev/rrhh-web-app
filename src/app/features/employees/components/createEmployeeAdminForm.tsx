@@ -61,6 +61,7 @@ export function CreateEmployeeAdminFormPersonal(){
 }
 
 export function CreateEmployeeAdminFormWork(){
+    // TODO: AGREGAR CATEGORIAS Y SUBCATEGORIAS
     return(
         <div className="p-2 flex flex-col justify-center">
             <span className="text-primary font-bold text-center"> Administrativo </span>

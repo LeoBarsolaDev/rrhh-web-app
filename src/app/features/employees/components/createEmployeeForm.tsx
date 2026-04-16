@@ -13,6 +13,7 @@ import { Alert } from "../../../shared/components/alert";
 export default function CreateEmployeeForm(){
     const [employee_type, setEmployeeType] = useState("");
     const {
+        categories,
         isSending,
         alertOpen,
         message,
