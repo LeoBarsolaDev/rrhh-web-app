@@ -12,6 +12,7 @@ import { useBreakpoint } from "../hooks/responsiveHook";
 import { useNavigate } from "react-router-dom";
 import Logo from "./logo";
 import Frame from "./frame";
+import { logout } from "../services/authService";
 
 interface ItemProps {
   children?: ReactNode;
@@ -83,7 +84,7 @@ function Sidebar() {
           <NavItem icon={faGear} link="/settings">Ajustes</NavItem>
 
           <div className="mt-auto">
-            <NavItem icon={faRightFromBracket} link="/login">Cerrar sesión</NavItem>
+            <NavItem icon={faRightFromBracket} link="/login" onClick={() => { logout(); }} >Cerrar sesión</NavItem>
           </div>
         </nav>
       </Frame>
@@ -134,7 +135,7 @@ function Sidebar() {
           </NavItem>
 
           <div className="mt-auto">
-            <NavItem icon={faRightFromBracket} link="/login" onClick={() => setOpenNavbar(false)}>
+            <NavItem icon={faRightFromBracket} link="/login" onClick={() => { logout(); setOpenNavbar(false); }}>
               Cerrar sesión
             </NavItem>
           </div>

@@ -7,6 +7,7 @@ import Logo from "../../../shared/components/logo";
 import useLogin from "../hooks/useLogin";
 import { Alert } from "../../../shared/components/alert";
 
+
 export default function LoginPage(){
     const {
         message,
@@ -17,6 +18,7 @@ export default function LoginPage(){
         onError
     } = useLogin()
 
+    
     return(
         <div className="flex w-full h-full justify-center items-center">
             <Frame styles="py-8 min-w-80" rounded>

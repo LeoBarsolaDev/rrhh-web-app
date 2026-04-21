@@ -56,16 +56,19 @@ export const api = {
 
 export const verifySession = async (): Promise<void> => {
     const token = getToken();
+    const isAtLogin = window.location.pathname === '/login';
 
-    // Si ni siquiera hay token localmente, redirigimos de una vez
+    // 1. Si no hay token
     if (!token) {
-        logout();
-        window.location.href = '/login';
-        return;
+        if (!isAtLogin) {
+            logout();
+            window.location.href = '/login';
+        }
+        return; // Si no hay token y ya está en login, no hacemos nada
     }
 
     try {
-        const response = await fetch(`${API_BASE_URL}/check-token`, {
+        const response = await fetch(`${API_BASE_URL}/check_token`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -75,20 +78,34 @@ export const verifySession = async (): Promise<void> => {
 
         const data = await response.json();
 
-        // Si el backend responde con success: false (o el status no es 200)
+        // 2. Si el token es INVÁLIDO
         if (!response.ok || data.success === false) {
             console.warn("Sesión inválida:", data.msg);
             logout();
-            window.location.href = '/login';
-        } else {
-            // Si success es true, no hace nada y permite continuar
+            // Solo redirigir a login si no estamos ya allí
+            if (!isAtLogin) {
+                window.location.href = '/login';
+            }
+        } 
+        // 3. Si el token es VÁLIDO
+        else {
             console.log("Sesión verificada correctamente");
+            
+            // SI ESTÁ EN LOGIN -> Redirigir al inicio (Dashboard/Home)
+            if (isAtLogin) {
+                console.log("Token válido detectado en login, redirigiendo...");
+                window.location.href = '/employees'; 
+            }
         }
         
     } catch (error) {
-        // En caso de error de red o servidor caído
         console.error("Error verificando sesión:", error);
-        // Opcional: podrías no redireccionar aquí si es solo un error de red
-        // o ser estricto y mandar a login igual
+        // En caso de error de red, si no estamos en login, 
+        // decidimos si ser estrictos o dejarlo pasar.
+        // Por seguridad, si el servidor no responde, mejor limpiar.
+        if (!isAtLogin) {
+            logout();
+            window.location.href = '/login';
+        }
     }
 };

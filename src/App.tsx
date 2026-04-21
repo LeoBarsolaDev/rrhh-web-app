@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import CreateEmployeePage from "./app/features/employees/views/createEmployee"
 import LoginPage from "./app/features/auth/views/login"
 import RequestsPage from "./app/features/requests/views/RequestsPage"
+import { verifySession } from "./app/shared/services/apiClient";
 
 function App() {
 	const [theme, setTheme] = useState(localStorage.getItem("theme"));
@@ -18,6 +19,11 @@ function App() {
 	useEffect(() => {
 		document.documentElement.setAttribute("data-theme", theme || "coral");
 	}, [theme]);
+
+	useEffect(() => {
+        // Verificamos la sesión apenas carga la app
+        verifySession();
+    }, []);
 
 	return (
 		<BrowserRouter>

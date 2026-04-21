@@ -14,6 +14,7 @@ export interface props {
 
 export default function EmployeeEditModal({open, setOpen, employee} : props){
     const {
+        categories,
         isSending,
         alertOpen,
         message,
@@ -53,8 +54,8 @@ export default function EmployeeEditModal({open, setOpen, employee} : props){
 
                             <Step name="Información Laboral">
                                 <span className="text-primary text-2xl font-bold text-center"> {employee.type} </span>
-                                    {employee.type === "Administrativo" && <EditEmployeeFormAdminWork />}
-                                    {employee.type === "Obrero" && <EditEmployeeFormWorkerWork employee={employee} />}
+                                    {employee.type === "Administrativo" && <EditEmployeeFormAdminWork categories={categories} employee={employee} />}
+                                    {employee.type === "Obrero" && <EditEmployeeFormWorkerWork categories={categories} employee={employee} />}
                                     <input type="hidden" name="emp_id" defaultValue={employee.id} />
                                     <Button type="submit" rounded wide> { isSending ? "Guardando..." : "Guardar" } </Button>
                             </Step>

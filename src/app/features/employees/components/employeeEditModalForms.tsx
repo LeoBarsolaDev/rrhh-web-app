@@ -1,7 +1,8 @@
-import { faBuilding, faCalendarPlus, faChurch, faEnvelope, faHouse, faIdCard, faLayerGroup, faMobile, faPhone, faSitemap, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faBuilding, faCalendarPlus, faChurch, faCodeBranch, faEnvelope, faHouse, faIdCard, faMobile, faPhone, faSitemap, faTags, faUsers } from "@fortawesome/free-solid-svg-icons";
 import Dropdown from "../../../shared/components/dropdown";
 import Input from "../../../shared/components/input";
 import type { EmployeeType } from "../types/employeeType";
+import { useState } from "react";
 
 export function EditEmployeeFormPersonal({employee} : {employee:EmployeeType}){
     return(
@@ -66,30 +67,45 @@ export function EditEmployeeFormPersonal({employee} : {employee:EmployeeType}){
     )
 }
 
-export function EditEmployeeFormWorkerWork({employee} : {employee:EmployeeType}){
+export function EditEmployeeFormWorkerWork({categories, employee} : {categories: any, employee:EmployeeType}){
+    const [selectedCategoryId, setSelectedCategoryId] = useState<string>("");
+    
+    const handleCategoryChange = (value: string) => {
+        setSelectedCategoryId(value);
+    };
+
+    const selectedCategory = categories?.worker_categories?.find(
+        (cat: any) => cat.id.toString() === selectedCategoryId.toString()
+    );
     return(
         <div className="flex flex-col justify-center mb-2">
             <Dropdown
                 label="Categoria"
-                icon={faLayerGroup}
                 name="category"
+                icon={faTags}
                 placeholder={employee.category_name?.toString()}
-                options={[
-                    {name:'Capataz', id:'1'}, 
-                    {name:'Oficial Especialista', id:'2'}, 
-                    {name:'Oficial', id:'3'}, 
-                    {name:'Ayudante', id:'4'},
-                ]}
+                options={categories.worker_categories.map((cat: any) => ({
+                    name: cat.name, 
+                    id: cat.id
+                }))}
+                onChange={handleCategoryChange} // Ahora recibirá el ID correcto
+                required
             />
 
             <Dropdown
                 label="Sub-categoria"
-                icon={faSitemap}
-                placeholder={employee.subcategory_name?.toString()}
                 name="subcategory"
-                options={[
-                    {name:'...', id:'1'}, 
-                ]}
+                placeholder={employee.subcategory_name?.toString()}
+                icon={faCodeBranch}
+                required
+                options={
+                    selectedCategory?.subcategories?.length > 0 
+                        ? selectedCategory.subcategories.map((sub: any) => ({
+                            name: `${selectedCategory.name} de ${sub.name}`, 
+                            id: sub.id
+                        }))
+                        : [{ name: "Sin subcategorías", id: "0" }]
+                }
             />
 
             <Dropdown
@@ -118,43 +134,52 @@ export function EditEmployeeFormWorkerWork({employee} : {employee:EmployeeType})
     )
 }
 
-export function EditEmployeeFormAdminWork(){
+export function EditEmployeeFormAdminWork({categories, employee} : {categories: any, employee:EmployeeType}){
+    const [selectedCategoryId, setSelectedCategoryId] = useState<string>("");
+    
+    const handleCategoryChange = (value: string) => {
+        setSelectedCategoryId(value);
+    };
+
+    const selectedCategory = categories?.admin_categories?.find(
+        (cat: any) => cat.id.toString() === selectedCategoryId.toString()
+    );
     return(
         <div className="flex flex-col justify-center mb-2">
             <Dropdown
                 label="Categoria"
-                icon={faLayerGroup}
                 name="category"
-                // onChange={(value) => handleChange("job_type", value)}
-                placeholder="Seleccione la Categoria"
-                // required
-                options={[
-                    {name:'Administrativo', id:'1'}, 
-                    {name:'Tecnico', id:'2'}, 
-                    {name:'Vendedor', id:'3'}, 
-                    {name:'Maestranza', id:'4'},
-                ]}
+                icon={faTags}
+                placeholder={employee.category_name?.toString()}
+                options={categories.admin_categories.map((cat: any) => ({
+                    name: cat.name, 
+                    id: cat.id
+                }))}
+                onChange={handleCategoryChange} // Ahora recibirá el ID correcto
+                required
             />
 
             <Dropdown
                 label="Sub-categoria"
-                icon={faSitemap}
                 name="subcategory"
-                // onChange={(value) => handleChange("job_type", value)}
-                placeholder="Seleccione la Sub-categoria"
-                // required
-                options={[
-                    {name:'...', id:'1'}, 
-                ]}
+                placeholder={`${employee.category_name} de ${employee.subcategory_name}`}
+                icon={faCodeBranch}
+                required
+                options={
+                    selectedCategory?.subcategories?.length > 0 
+                        ? selectedCategory.subcategories.map((sub: any) => ({
+                            name: `${selectedCategory.name} de ${sub.name}`, 
+                            id: sub.id
+                        }))
+                        : [{ name: "Sin subcategorías", id: "0" }]
+                }
             />
 
             <Dropdown
                 label="Area"
                 icon={faBuilding}
-                name="subcategory"
-                // onChange={(value) => handleChange("job_type", value)}
-                placeholder="Seleccione la Area"
-                // required
+                name="area"
+                placeholder={employee.area_name?.toString()}
                 options={[
                     {name:'Emprendedora', id:'1'}, 
                     {name:'Constructora', id:'2'}, 
@@ -171,9 +196,7 @@ export function EditEmployeeFormAdminWork(){
                 label="Departamento"
                 icon={faUsers}
                 name="department"
-                // onChange={(value) => handleChange("job_type", value)}
-                placeholder="Seleccione el Departamento"
-                // required
+                placeholder={employee.department_name?.toString()}
                 options={[
                     {name:'Finanzas', id:'1'}, 
                     {name:'Recursos Humanos', id:'2'}, 
@@ -186,7 +209,7 @@ export function EditEmployeeFormAdminWork(){
                 label="Fecha de ingreso"
                 name="start_date"
                 type="date"
-                placeholder=""
+                placeholder={employee.start_date?.toString()}
                 icon={faCalendarPlus}
                 // required
                 // onChange={(value) => handleChange("full_name", value)}

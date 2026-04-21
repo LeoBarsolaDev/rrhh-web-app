@@ -6,6 +6,7 @@ export interface EmployeeTableType {
   "Nombre completo": string;
   "Area / Rubro": string;
   "Categoria": string;
+  "Tipo": 'admin' | 'worker';
   "Estado": "Activo" | "De baja";
 }
 

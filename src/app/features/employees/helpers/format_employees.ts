@@ -8,6 +8,7 @@ export default function format_employees (employees: EmployeeType[]): EmployeeTa
         "Nombre completo": emp.full_name,
         "Area / Rubro": (emp.area_name || emp.field_name) || "No registrado",
         "Categoria": emp.category_name || "Sin Categoría",
+        "Tipo": emp.type,
         "Estado": emp.status,
     }));
 };
