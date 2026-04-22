@@ -1,4 +1,4 @@
-import { faBuilding, faCalendarPlus, faChurch, faCodeBranch, faEnvelope, faHouse, faIdCard, faMobile, faPhone, faSitemap, faTags, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faBuilding, faCalendarPlus, faChurch, faCodeBranch, faEnvelope, faHouse, faIdCard, faMobile, faPhone, faSitemap, faTags, faUser, faUsers } from "@fortawesome/free-solid-svg-icons";
 import Dropdown from "../../../shared/components/dropdown";
 import Input from "../../../shared/components/input";
 import type { EmployeeType } from "../types/employeeType";
@@ -12,7 +12,7 @@ export function EditEmployeeFormPersonal({employee} : {employee:EmployeeType}){
                 name="full_name"
                 type="text"
                 placeholder={employee.full_name.toString()}
-                icon={faUsers}
+                icon={faUser}
                 // required
                 // onChange={(value) => handleChange("full_name", value)}
             />
@@ -99,7 +99,6 @@ export function EditEmployeeFormWorkerWork({categories, employee} : {categories:
                     id: cat.id
                 }))}
                 onChange={handleCategoryChange} // Ahora recibirá el ID correcto
-                required
             />
 
             <Dropdown
@@ -107,7 +106,6 @@ export function EditEmployeeFormWorkerWork({categories, employee} : {categories:
                 name="subcategory"
                 placeholder={employee.subcategory_name?.toString()}
                 icon={faCodeBranch}
-                required
                 options={
                     selectedCategory?.subcategories?.length > 0 
                         ? selectedCategory.subcategories.map((sub: any) => ({
@@ -169,7 +167,6 @@ export function EditEmployeeFormAdminWork({categories, employee} : {categories: 
                     id: cat.id
                 }))}
                 onChange={handleCategoryChange} // Ahora recibirá el ID correcto
-                required
             />
 
             <Dropdown
@@ -177,7 +174,6 @@ export function EditEmployeeFormAdminWork({categories, employee} : {categories: 
                 name="subcategory"
                 placeholder={`${employee.category_name} de ${employee.subcategory_name}`}
                 icon={faCodeBranch}
-                required
                 options={
                     selectedCategory?.subcategories?.length > 0 
                         ? selectedCategory.subcategories.map((sub: any) => ({
