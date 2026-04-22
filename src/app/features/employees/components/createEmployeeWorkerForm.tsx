@@ -111,13 +111,16 @@ export function CreateEmployeeWorkerFormWork({categories} : {categories: any}){
                 placeholder="Seleccione el Rubro"
                 required
                 options={[
-                    {name:'Yesero', id:'1'}, 
-                    {name:'Ceramista', id:'2'}, 
-                    {name:'Pintor', id:'3'}, 
-                    {name:'Fierrero', id:'4'}, 
-                    {name:'Electricista', id:'5'}, 
-                    {name:'Plomero', id:'6'}, 
-                    {name:'Encofrador', id:'7'}, 
+                    { name: 'Obrero', id: '7' },
+                    { name: 'Yesero', id: '1' },
+                    { name: 'Pintor', id: '2' },
+                    { name: 'Ceramista', id: '3' },
+                    { name: 'Carpintero', id: '4' },
+                    { name: 'Subcontratista', id: '5' },
+                    { name: 'Electricista', id: '6' },
+                    { name: 'Fierrero', id: '8' },
+                    { name: 'Plomero', id: '9' },
+                    { name: 'Encofrador', id: '10' }
                 ]}
             />
 

@@ -7,6 +7,16 @@ import { useState } from "react";
 export function EditEmployeeFormPersonal({employee} : {employee:EmployeeType}){
     return(
         <div className="flex flex-col justify-center mb-2">
+            <Input 
+                label="Nombre completo"
+                name="full_name"
+                type="text"
+                placeholder={employee.full_name.toString()}
+                icon={faUsers}
+                // required
+                // onChange={(value) => handleChange("full_name", value)}
+            />
+
             <Dropdown
                 label="Tipo de documento"
                 icon={faIdCard}
@@ -114,13 +124,16 @@ export function EditEmployeeFormWorkerWork({categories, employee} : {categories:
                 name="field"
                 placeholder={employee.field_name?.toString()}
                 options={[
-                    {name:'Yesero', id:'1'}, 
-                    {name:'Ceramista', id:'2'}, 
-                    {name:'Pintor', id:'3'}, 
-                    {name:'Fierrero', id:'4'}, 
-                    {name:'Electricista', id:'5'}, 
-                    {name:'Plomero', id:'6'}, 
-                    {name:'Encofrador', id:'7'}, 
+                    { name: 'Obrero', id: '7' },
+                    { name: 'Yesero', id: '1' },
+                    { name: 'Pintor', id: '2' },
+                    { name: 'Ceramista', id: '3' },
+                    { name: 'Carpintero', id: '4' },
+                    { name: 'Subcontratista', id: '5' },
+                    { name: 'Electricista', id: '6' },
+                    { name: 'Fierrero', id: '8' },
+                    { name: 'Plomero', id: '9' },
+                    { name: 'Encofrador', id: '10' }
                 ]}
             />
 
