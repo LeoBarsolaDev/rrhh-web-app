@@ -6,7 +6,6 @@ export default function useEditModal(){
     const [alertOpen, setAlertOpen] = useState<boolean>(false);
     const [alertType, setAlertType] = useState<string>("");
     const [message, setMessage] = useState<string>("");
-<<<<<<< HEAD
     const [categories, setCategories] = useState<any>({});
 
     useEffect(() => {
@@ -29,9 +28,8 @@ export default function useEditModal(){
 
         fetchCategories();
     }, []);
-=======
     const [isCuilValid, setIsCuilValid] = useState<"not valid" | "valid" | "">("");
->>>>>>> dev
+
 
     function onSuccess(){
         setIsSending(true);
