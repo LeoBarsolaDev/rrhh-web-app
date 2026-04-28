@@ -5,6 +5,7 @@ export default function useEditModal(){
     const [alertOpen, setAlertOpen] = useState<boolean>(false);
     const [alertType, setAlertType] = useState<string>("");
     const [message, setMessage] = useState<string>("");
+    const [isCuilValid, setIsCuilValid] = useState<"not valid" | "valid" | "">("");
 
     function onSuccess(){
         setIsSending(true);
@@ -47,6 +48,8 @@ export default function useEditModal(){
         alertOpen,
         message,
         alertType,
+        isCuilValid,
+        setIsCuilValid,
         setAlertOpen,
         onSuccess,
         onError,

@@ -18,12 +18,14 @@ export default function CreateEmployeeForm(){
         alertOpen,
         message,
         alertType,
+        isCuilValid,
+        setIsCuilValid,
         setAlertOpen,
         onSuccess,
         onError,
     } = useCreateEmployeeForm();
     return(
-        <Form url="/rrhh/employees" method="POST" onError={onError} onSuccess={onSuccess}>
+        <Form url="/rrhh/employees" method="POST" onError={onError} onSuccess={onSuccess} validate={isCuilValid}>
             <Alert show={alertOpen} type={alertType === "success" ? "success" : "error"} onClose={() => {setAlertOpen(false)}}>
                 {message}
             </Alert>
@@ -78,8 +80,8 @@ export default function CreateEmployeeForm(){
                 </Step>
 
                 <Step name="Información personal">
-                    {employee_type === "Administrativo" && <CreateEmployeeAdminFormPersonal />}
-                    {employee_type === "Obrero" && <CreateEmployeeWorkerFormPersonal />}
+                    {employee_type === "Administrativo" && <CreateEmployeeAdminFormPersonal setIsCuilValid={setIsCuilValid} />}
+                    {employee_type === "Obrero" && <CreateEmployeeWorkerFormPersonal setIsCuilValid={setIsCuilValid} />}
                 </Step>
 
                 <Step name="Información laboral">

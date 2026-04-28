@@ -9,9 +9,12 @@ interface Props {
     className?: string;
     isSending?: boolean;
     method?: string;
+    validate?: ((data: any) => boolean | string) | "not valid" | "valid" | "";
 }
 
-export default function Form({ url, children, onSuccess, onError, className = "p-6", method="POST" }: Props) {
+export default function Form({ url, children, onSuccess, onError, className = "p-6", method="POST", validate }: Props) {
+
+
   
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -26,6 +29,27 @@ export default function Form({ url, children, onSuccess, onError, className = "p
         // Si HAY archivos, enviamos el formData tal cual (Multipart)
         const dataToSend = hasFiles ? formData : Object.fromEntries(formData.entries());
 
+        if (validate !== undefined) {
+            let isValid = true;
+            let errorMsg = "La validación ha fallado";
+
+            if (typeof validate === "function") {
+                // Caso A: Es una función, la ejecutamos pasando los datos
+                const result = validate(dataToSend);
+                if (result !== true) {
+                    isValid = false;
+                    if (typeof result === "string") errorMsg = result;
+                }
+            } else {
+                // Caso B: Es un booleano directo (true/false)
+                isValid = validate === "valid";
+            }
+
+            if (!isValid) {
+                if (onError) onError(new Error(errorMsg));
+                return;
+            }
+        }
         try {
             let response: any;
             // const config = hasFiles ? { headers: { 'Content-Type': 'multipart/form-data' } } : {};

@@ -1,9 +1,43 @@
 import { faBirthdayCake, faCalendarPlus, faChurch, faCodeBranch, faEnvelope, faHouse, faIdCard, faMobile, faPhone, faSitemap, faTags, faVenusMars } from "@fortawesome/free-solid-svg-icons";
 import Dropdown from "../../../shared/components/dropdown";
 import Input from "../../../shared/components/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { validateCuil } from "../services/validateCuilService";
 
-export function CreateEmployeeWorkerFormPersonal(){
+export function CreateEmployeeWorkerFormPersonal({setIsCuilValid} : {setIsCuilValid: (value: "" | "not valid" | "valid") => void}){
+    const [isCuilValid, setIsCuilValidVar] = useState<"" | "not valid" | "valid">("");
+    const [cuil, setCuil] = useState<string | number | null>("")
+    useEffect(() => {
+        // Si es null o undefined, tratamos como vacío
+        const cuilRaw = cuil;
+        const cuilClean = typeof cuilRaw === "string" ? cuilRaw.replace(/[-_\s]/g, "") : "";
+
+        if (cuilClean.length === 0) {
+            setIsCuilValid("");
+            setIsCuilValidVar("");
+            return;
+        }
+
+        // Mientras no llegue a 11, lo marcamos como "no válido" 
+        // (o puedes poner "" si no quieres que sea rojo mientras escribe)
+        if (cuilClean.length < 11) {
+            setIsCuilValid("not valid");
+            setIsCuilValidVar("not valid");
+            return;
+        }
+
+        if (cuilClean.length === 11) {
+            const isValid = validateCuil(cuilClean);
+            const status = isValid ? "valid" : "not valid";
+            setIsCuilValid(status);
+            setIsCuilValidVar(status);
+        }
+    }, [cuil]);
+
+    const handleChange = (value: string | number | null) => {
+        setCuil(value);
+    };
+    
     return(
         <div className="p-2 flex flex-col justify-center">
             <span className="text-primary font-bold text-center"> Obrero </span>
@@ -24,7 +58,17 @@ export function CreateEmployeeWorkerFormPersonal(){
             />
 
             <Input required placeholder="88.888.888" label="Numero de documento" name="document_number" type="number" icon={faIdCard} />
-            <Input required placeholder="80-88.888.888-8" label="CUIL" name="cuil" type="number" icon={faIdCard} />
+            <Input 
+                required 
+                label="CUIL" 
+                placeholder="80-88.888.888-8" 
+                name="cuil" 
+                type="text" 
+                icon={faIdCard}
+                isValid={isCuilValid}
+                onChange={(value) => handleChange(value)}
+                invalidMessage="No es un CUIL valido"
+            />
 
             {/* ENUM: ID igual al Nombre */}
             <Dropdown

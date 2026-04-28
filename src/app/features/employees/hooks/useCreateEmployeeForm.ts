@@ -7,6 +7,7 @@ export default function useCreateEmployeeForm(){
     const [alertType, setAlertType] = useState<string>("");
     const [message, setMessage] = useState<string>("");
     const [categories, setCategories] = useState<any>({});
+    const [isCuilValid, setIsCuilValid] = useState<"not valid" | "valid" | "">("");
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -71,6 +72,8 @@ export default function useCreateEmployeeForm(){
         alertOpen,
         message,
         alertType,
+        isCuilValid,
+        setIsCuilValid,
         setAlertOpen,
         onSuccess,
         onError,

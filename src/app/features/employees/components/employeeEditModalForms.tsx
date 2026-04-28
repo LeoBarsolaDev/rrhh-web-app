@@ -2,8 +2,43 @@ import { faBuilding, faCalendarPlus, faChurch, faEnvelope, faHouse, faIdCard, fa
 import Dropdown from "../../../shared/components/dropdown";
 import Input from "../../../shared/components/input";
 import type { EmployeeType } from "../types/employeeType";
+import { useEffect, useState } from "react";
+import { validateCuil } from "../services/validateCuilService";
 
-export function EditEmployeeFormPersonal({employee} : {employee:EmployeeType}){
+export function EditEmployeeFormPersonal({employee, setIsCuilValid} : {employee:EmployeeType, setIsCuilValid: (value: "" | "not valid" | "valid") => void}){
+    const [isCuilValid, setIsCuilValidVar] = useState<"" | "not valid" | "valid">("");
+    const [cuil, setCuil] = useState<string | number | null>("")
+    useEffect(() => {
+        // Si es null o undefined, tratamos como vacío
+        const cuilRaw = cuil;
+        const cuilClean = typeof cuilRaw === "string" ? cuilRaw.replace(/[-_\s]/g, "") : "";
+
+        if (cuilClean.length === 0) {
+            setIsCuilValid("");
+            setIsCuilValidVar("");
+            return;
+        }
+
+        // Mientras no llegue a 11, lo marcamos como "no válido" 
+        // (o puedes poner "" si no quieres que sea rojo mientras escribe)
+        if (cuilClean.length < 11) {
+            setIsCuilValid("not valid");
+            setIsCuilValidVar("not valid");
+            return;
+        }
+
+        if (cuilClean.length === 11) {
+            const isValid = validateCuil(cuilClean);
+            const status = isValid ? "valid" : "not valid";
+            setIsCuilValid(status);
+            setIsCuilValidVar(status);
+        }
+    }, [cuil]);
+
+    const handleChange = (value: string | number | null) => {
+        setCuil(value);
+    };
+
     return(
         <div className="flex flex-col justify-center mb-2">
             <Dropdown
@@ -34,8 +69,11 @@ export function EditEmployeeFormPersonal({employee} : {employee:EmployeeType}){
                 label="CUIL"
                 name="cuil"
                 type="text"
+                isValid={isCuilValid}
                 placeholder={employee.cuil.toString()}
                 icon={faIdCard}
+                onChange={(value) => handleChange(value)}
+                invalidMessage="No es un CUIL valido"
                 // required
                 // onChange={(value) => handleChange("full_name", value)}
             />

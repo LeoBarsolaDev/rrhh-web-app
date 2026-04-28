@@ -18,6 +18,8 @@ export default function EmployeeEditModal({open, setOpen, employee} : props){
         alertOpen,
         message,
         alertType,
+        isCuilValid,
+        setIsCuilValid,
         setAlertOpen,
         onSuccess,
         onError,
@@ -41,12 +43,12 @@ export default function EmployeeEditModal({open, setOpen, employee} : props){
                     {message}
                 </Alert>
                 {employee !== null ? (
-                    <Form url="/rrhh/employees" method="PATCH" onError={onError} onSuccess={onSuccess}>
+                    <Form url="/rrhh/employees" method="PATCH" onError={onError} onSuccess={onSuccess} validate={isCuilValid}>
                         
                         <Wizard>
                             <Step name="Información Personal">
                                 <span className="text-primary text-2xl font-bold text-center"> {employee.type} </span>
-                                    <EditEmployeeFormPersonal employee={employee} />
+                                    <EditEmployeeFormPersonal employee={employee} setIsCuilValid={setIsCuilValid} />
                                     <input type="hidden" name="emp_id" defaultValue={employee.id} />
                                     <Button type="submit" rounded wide> { isSending ? "Guardando..." : "Guardar" } </Button>
                             </Step>
