@@ -9,7 +9,7 @@ export default function useRequestModal(){
 
     async function handleEditRequest(data: any, message: string){
         try {
-            await api.patch("/rrhh/requests", data);
+            await api.patch("/procedures/requests", data);
 
 
             setAlertOpen(true);
