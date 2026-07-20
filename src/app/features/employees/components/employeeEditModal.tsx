@@ -4,7 +4,7 @@ import Form from "../../../shared/components/form";
 import Modal from "../../../shared/components/modal";
 import { Step, Wizard } from "../../../shared/components/wizard";
 import useEditModal from "../hooks/useEditModal";
-import { EditEmployeeContact, EditEmployeeFormAdminWork, EditEmployeeFormPersonal, EditEmployeeFormWorkerWork } from "./employeeEditModalForms";
+import { EditEmployeeContact, EditEmployeeFormAdminWork, EditEmployeeFormPersonal, EditEmployeeFormWorkerWork, EditEmployeeHistory } from "./employeeEditModalForms";
 
 export interface props {
   open: boolean;
@@ -60,6 +60,10 @@ export default function EmployeeEditModal({open, setOpen, employee} : props){
                                     {employee.type === "Obrero" && <EditEmployeeFormWorkerWork categories={categories} employee={employee} />}
                                     <input type="hidden" name="emp_id" defaultValue={employee.id} />
                                     <Button type="submit" rounded wide> { isSending ? "Guardando..." : "Guardar" } </Button>
+                            </Step>
+
+                            <Step name="Historial de bajas">
+                                <EditEmployeeHistory title={employee.type} history={employee.history} />
                             </Step>
 
                             <Step name="Información de Contacto">

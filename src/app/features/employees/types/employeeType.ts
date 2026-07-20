@@ -23,8 +23,6 @@ export interface EmployeeType {
     department_name?: string; // Viene del to_dict con relación
     field: number | null;
     field_name: string | null;
-    start_date: string;
-    legal_start_date: string;
     email: string | null;
     mobile_phone: number;
     landline_phone: number | null;

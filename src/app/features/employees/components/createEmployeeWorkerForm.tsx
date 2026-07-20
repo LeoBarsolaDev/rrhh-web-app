@@ -167,9 +167,6 @@ export function CreateEmployeeWorkerFormWork({categories} : {categories: any}){
                     { name: 'Encofrador', id: '10' }
                 ]}
             />
-
-            <Input required label="Fecha de ingreso" name="start_date" type="date" icon={faCalendarPlus} />
-            <Input required label="Fecha de ingreso Legal" name="legal_start_date" type="date" icon={faCalendarPlus} />
         </div>
     )
 }

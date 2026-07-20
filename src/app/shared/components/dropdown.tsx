@@ -17,6 +17,7 @@ interface DropdownProps {
   options: DropdownOption[]
   defaultValue?: string
   onChange?: (value: string) => void
+  returnName?: boolean // 🔹 Nueva opción para decidir qué retornar
 }
 
 export default function Dropdown({
@@ -28,21 +29,28 @@ export default function Dropdown({
     options,
     defaultValue = "",
     onChange,
+    returnName = false, // 🔹 Por defecto es false (devuelve id)
 }: DropdownProps) {
     const [open, setOpen] = useState(false)
     const [value, setValue] = useState(defaultValue)
     const containerRef = useRef<HTMLDivElement>(null)
     const triggerId = `dropdown-${name}`
 
-    const selectedOption = options.find(o => o.id === value)
+    // 🔹 Buscamos la opción seleccionada ya sea comparando por id o por name
+    const selectedOption = options.find(o => 
+        returnName ? String(o.name) === value : o.id === value
+    )
 
-    const selectOption = (val: string) => {
-        setValue(val)
+    const selectOption = (option: DropdownOption) => {
+        // 🔹 Elegimos qué valor guardar y emitir según la prop 'returnName'
+        const valueToReturn = returnName ? String(option.name) : option.id
+        
+        setValue(valueToReturn)
         setOpen(false)
-        onChange?.(val)
+        onChange?.(valueToReturn)
     }
 
-    // 🔹 cerrar al clickear fuera
+    // 🔹 Cerrar al clickear fuera
     useEffect(() => {
         const handler = (e: MouseEvent) => {
             if (!containerRef.current?.contains(e.target as Node)) {
@@ -91,9 +99,14 @@ export default function Dropdown({
                 "
             >
             <option value="" />
-            {options.map(o => (
-                <option key={o.id} value={o.id} />
-            ))}
+                {options.map(o => {
+                    const optionValue = returnName ? String(o.name) : o.id
+                    return (
+                        <option key={o.id} value={optionValue}>
+                            {o.name}
+                        </option>
+                    )
+                })}
             </select>
 
         {/* Trigger visual */}
@@ -106,7 +119,6 @@ export default function Dropdown({
             bg-secondary
             flex items-center justify-between
             text-md font-medium
-            
             focus:outline-none
         "
             >
@@ -136,10 +148,7 @@ export default function Dropdown({
             </button>
 
             {/* Menu */}
-            {/* {open && ( */}
-            <div className={`
-                relative w-full z-50
-            `}>
+            <div className="relative w-full z-50">
                 <ul className={`
                         absolute
                         w-full
@@ -153,23 +162,20 @@ export default function Dropdown({
                 {options.map(option => (
                     <li
                     key={option.id}
-                    onClick={() => selectOption(option.id)}
-                    className={`
+                    onClick={() => selectOption(option)} // 🔹 Pasamos todo el objeto option
+                    className="
                         px-3 py-2
                         cursor-pointer
                         transition-colors
                         text-placeholder
                         hover:bg-primary hover:text-white
-                    `}
+                    "
                     >
                         {option.name}
                     </li>
                 ))}
                 </ul>
             </div>
-        {/* )} */}
         </div>
     )
 }
-
-

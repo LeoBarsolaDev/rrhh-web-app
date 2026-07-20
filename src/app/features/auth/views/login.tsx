@@ -50,7 +50,7 @@ export default function LoginPage(){
                 </Form>
 
                 <p className="text-foreground text-center">
-                    ¿Problemas para acceder? <a href="" className="text-primary underline hover:cursor-pointer">Contáctanos</a>
+                    ¿Problemas para acceder? <a href="https://wa.me/5492644003926?text=Buenas%2C%20estoy%20teniendo%20problemas%20para%20acceder%20al%20sistema%20de%20RRHH" target="_blank" className="text-primary underline hover:cursor-pointer">Contáctanos</a>
                 </p>
             </Frame>
             <Alert type={alertType} show={alertOpen} onClose={() => {setAlertOpen(false)}} >

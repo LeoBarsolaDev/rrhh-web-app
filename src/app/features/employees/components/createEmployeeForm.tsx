@@ -3,7 +3,7 @@ import Form from "../../../shared/components/form";
 import { Step, Wizard } from "../../../shared/components/wizard";
 import Radio from "../../../shared/components/radio";
 import { faBoxArchive, faUser} from "@fortawesome/free-solid-svg-icons";
-import { CreateEmployeeAdminFormContact, CreateEmployeeAdminFormPersonal, CreateEmployeeAdminFormWork } from "./createEmployeeAdminForm";
+import { CreateEmployeeAdminFormContact, CreateEmployeeAdminFormPersonal, CreateEmployeeAdminFormWork, CreateEmployeeHistory } from "./createEmployeeAdminForm";
 import { Button } from "../../../shared/components/button";
 import { CreateEmployeeWorkerFormContact, CreateEmployeeWorkerFormPersonal, CreateEmployeeWorkerFormWork } from "./createEmployeeWorkerForm";
 import Input from "../../../shared/components/input";
@@ -87,6 +87,10 @@ export default function CreateEmployeeForm(){
                 <Step name="Información laboral">
                     {employee_type === "Administrativo" && <CreateEmployeeAdminFormWork categories={categories}/>}
                     {employee_type === "Obrero" && <CreateEmployeeWorkerFormWork categories={categories} />}
+                </Step>
+
+                <Step name="Historial de bajas">
+                    <CreateEmployeeHistory title={employee_type} />
                 </Step>
 
                 <Step name="Información de contacto">

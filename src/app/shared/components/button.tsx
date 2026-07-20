@@ -13,10 +13,10 @@ interface ButtonProps {
 
 const COLOR_MAP: Record<string, string> = {
     primary: "bg-primary",
-    done: "bg-success",
+    success: "bg-success",
     info: "bg-info",
     edit: "bg-accent",
-    delete: "bg-danger",
+    danger: "bg-danger",
     clean: "bg-muted",
 };
 
@@ -46,7 +46,7 @@ export function Button({
             ${bg}
             ${style}
             ${wide ? "w-full" : ""}
-            ${rounded ? "rounded-xl" : ""}
+            ${rounded ? "rounded-lg" : ""}
             ${disabled ? "opacity-50 cursor-not-allowed" : "hover:brightness-110 hover:cursor-pointer"}
             transition-all duration-150
             text-lg

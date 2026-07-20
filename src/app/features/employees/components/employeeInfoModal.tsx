@@ -1,4 +1,5 @@
 import Modal from "../../../shared/components/modal";
+import HistoryCard from "./historyComponent";
 
 export interface props {
   open: boolean;
@@ -84,9 +85,26 @@ export default function EmployeeInfoModal({open, setOpen, employee} : props){
                                 <InfoItem title="Área" info={employee.area_name} />
                                 <InfoItem title="Departamento" info={employee.department_name} />
                                 <InfoItem title="Rubro" info={employee.field !== null ? employee.field : "No registrada"} />
-                                <InfoItem title="Fecha de ingreso" info={employee.start_date} />
-                                <InfoItem title="Fecha de ingresos (Legal)" info={employee.legal_start_date !== null ? employee.legal_start_date : "No registrada"} />
                                 <InfoItem title="Fecha de salida" info={employee.separation_date !== null ? employee.separation_date : "No registrada"} />
+                            </div>
+
+                            <div className="bg-secondary py-4 px-4 w-full rounded-2xl flex flex-col gap-y-3">
+                                <h4 className="w-full text-center text-primary font-black text-lg"> Historial de Bajas </h4>
+                                <div className="w-full bg-separator h-0.5"></div>
+                                
+                                {employee.history && employee.history.length > 0 ? (
+                                    <div className="flex flex-col gap-4 w-full mt-2">
+                                        {employee.history.map((his: any, index: number) => (
+                                            <div key={his.id || index} className="w-full">
+                                                <HistoryCard register={his} index={his.id} onDelete={null} />
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <p className="text-center text-placeholder font-extralight text-sm py-2">
+                                        No hay historial registrado
+                                    </p>
+                                )}
                             </div>
                         </div>
                     ) : (<></>)

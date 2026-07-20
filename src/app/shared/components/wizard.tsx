@@ -31,48 +31,48 @@ export function Wizard({ children }: { children: React.ReactNode }) {
 
     return (
         <div className="p-4 w-full h-full flex flex-col bg-frame rounded-2xl">
-        {/* Indicador de pasos (mismo código) */}
-        <div className="flex justify-between">
-            {steps.map((step, i) => (
-            <span key={i} className="flex flex-col justify-center items-center px-6 pt-2">
-                <span className={`w-8 h-8 flex justify-center items-center rounded-full text-secondary font-black sm:mb-0 mb-8 transition-all duration-200 ${i <= index ? "bg-primary text-white" : "bg-foreground text-background"}`}>
-                {i + 1}
+            {/* Indicador de pasos (mismo código) */}
+            <div className="flex justify-between overflow-x-auto snap-x scrollbar-none pb-2">
+                {steps.map((step, i) => (
+                <span key={i} className="flex flex-col justify-center items-center px-6 pt-2">
+                    <span className={`w-8 h-8 flex justify-center items-center rounded-full text-secondary font-black sm:mb-0 mb-8 transition-all duration-200 ${i <= index ? "bg-primary text-white" : "bg-foreground text-background"}`}>
+                    {i + 1}
+                    </span>
+                    <span className={`font-bold sm:block text-center hidden transition-all duration-200 ${i <= index ? "text-primary" : "text-foreground"}`}>
+                    {(step as any).props.name}
+                    </span>
                 </span>
-                <span className={`font-bold sm:block text-center hidden transition-all duration-200 ${i <= index ? "text-primary" : "text-foreground"}`}>
-                {(step as any).props.name}
-                </span>
-            </span>
-            ))}
-        </div>
-        <h4 className="text-center text-primary uppercase font-bold sm:hidden block">{(steps[index] as any).props.name}</h4>
-        <hr className="border-secondary my-4" />
-
-        {/* RENDERIZADO DE PASOS: Ahora no se desmontan */}
-        <div className="flex-1 overflow-visible relative">
-            {steps.map((step, i) => (
-            <div 
-                key={i} 
-                id={`step-${i}`}
-                className={i === index ? "block" : "hidden"}
-            >
-                {step}
+                ))}
             </div>
-            ))}
-        </div>
+            <h4 className="text-center text-primary uppercase font-bold sm:hidden block">{(steps[index] as any).props.name}</h4>
+            <hr className="border-secondary my-4" />
 
-        {/* Controles (mismo código) */}
-        <div className="w-full mt-4 flex justify-evenly">
-            <Button type="button" color="primary" onClick={prev} disabled={index === 0}>
-            <FontAwesomeIcon icon={faLeftLong} />
-            </Button>
+            {/* RENDERIZADO DE PASOS: Ahora no se desmontan */}
+            <div className="flex-1 overflow-visible relative">
+                {steps.map((step, i) => (
+                <div 
+                    key={i} 
+                    id={`step-${i}`}
+                    className={i === index ? "block" : "hidden"}
+                >
+                    {step}
+                </div>
+                ))}
+            </div>
 
-            {/* Ocultamos el botón 'Next' en el último paso para que no estorbe al botón 'Submit' de tu página */}
-            {index < steps.length - 1 && (
-            <Button type="button" color="primary" onClick={next}>
-                <FontAwesomeIcon icon={faRightLong} />
-            </Button>
-            )}
-        </div>
+            {/* Controles (mismo código) */}
+            <div className="w-full mt-4 flex justify-evenly">
+                <Button type="button" color="primary" onClick={prev} disabled={index === 0}>
+                    <FontAwesomeIcon icon={faLeftLong} />
+                    </Button>
+
+                    {/* Ocultamos el botón 'Next' en el último paso para que no estorbe al botón 'Submit' de tu página */}
+                    {index < steps.length - 1 && (
+                    <Button type="button" color="primary" onClick={next}>
+                        <FontAwesomeIcon icon={faRightLong} />
+                    </Button>
+                )}
+            </div>
         </div>
     );
 }

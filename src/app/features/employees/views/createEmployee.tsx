@@ -13,7 +13,7 @@ export default function CreateEmployeePage(){
                     md:min-h-screen min-h-[calc(100dvh-6rem)]  flex justify-center items-center
                 "
             >
-                <Frame styles="md:w-9/10 w-19/20" rounded>
+                <Frame styles="w-9/10" rounded>
                     <CreateEmployeeForm />
                 </Frame>
             </div>

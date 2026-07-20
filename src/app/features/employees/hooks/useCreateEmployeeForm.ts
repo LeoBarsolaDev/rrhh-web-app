@@ -36,7 +36,7 @@ export default function useCreateEmployeeForm(){
         setAlertType("success")
         setMessage("Empleado creado con exito.");
 
-        setTimeout(() => {window.location.reload();}, 2500);
+        // setTimeout(() => {window.location.reload();}, 2500);
     }
 
     const onError = (error: any) => {

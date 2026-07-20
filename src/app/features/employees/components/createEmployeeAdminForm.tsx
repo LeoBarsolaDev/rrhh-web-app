@@ -1,8 +1,13 @@
-import { faBirthdayCake, faBriefcase, faBuilding, faCalendarPlus, faChurch, faCodeBranch, faEnvelope, faHouse, faIdCard, faMobile, faPhone, faTags, faVenusMars } from "@fortawesome/free-solid-svg-icons";
+import { faBirthdayCake, faBriefcase, faBuilding, faCalendarPlus, faChurch, faCodeBranch, faComments, faEnvelope, faHouse, faIdCard, faMobile, faPhone, faPlus, faTags, faVenusMars } from "@fortawesome/free-solid-svg-icons";
 import Input from "../../../shared/components/input";
 import Dropdown from "../../../shared/components/dropdown";
 import { useEffect, useState } from "react";
 import { validateCuil } from "../services/validateCuilService";
+import { Button } from "../../../shared/components/button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Modal from "../../../shared/components/modal";
+import Textarea from "../../../shared/components/textarea";
+import HistoryCard, { type RegisterProps } from "./historyComponent";
 
 export function CreateEmployeeAdminFormPersonal({setIsCuilValid} : {setIsCuilValid: (value: "" | "not valid" | "valid") => void}){
     const [isCuilValid, setIsCuilValidVar] = useState<"" | "not valid" | "valid">("");
@@ -184,12 +189,214 @@ export function CreateEmployeeAdminFormWork({categories} : {categories: any}){
                     { name: 'MANTENIMIENTO', id: "11" },
                 ]}
             />
-
-            <Input required label="Fecha de ingreso" name="start_date" type="date" icon={faCalendarPlus} />
-            <Input required label="Fecha de ingreso (Legal)" name="legal_start_date" type="date" icon={faCalendarPlus} />
         </div>
     )
 }
+
+export function CreateEmployeeHistory({title} : {title:string}) {
+    const [openModalStart, setOpenModalStart] = useState<boolean>(false);
+    const [openModalSeparation, setOpenModalSeparation] = useState<boolean>(false);
+    const [registers, setRegisters] = useState<RegisterProps[]>([]);
+
+    interface FormModalData {
+        id: string,
+        type: string | null;
+        cause: string | null;
+        reason: string | null;
+        real_date: string | null;
+        legal_date: string | null;
+    }
+
+    const addNewRegister = (data: FormModalData) => {
+        const newRegister: RegisterProps = {
+            id: `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+            type: data.type,
+            cause: data.cause,
+            reason: data.reason,
+            real_date: data.real_date,
+            legal_date: data.legal_date,
+        };
+
+        // Insertamos el nuevo registro al principio de la lista
+        setRegisters((prev) => [newRegister, ...prev]);
+
+        // Cerramos ambos modales de forma segura
+        setOpenModalStart(false);
+        setOpenModalSeparation(false);
+    };
+
+    const deleteRegister = (idToDelete?: string) => {
+        if (!idToDelete) return;
+        setRegisters((prev) => prev.filter((reg) => reg.id !== idToDelete));
+    };
+            
+    function StartModal(){
+        const [formData, setFormData] = useState<FormModalData>({
+            id: "",
+            type: "Alta",
+            cause: "",
+            reason: "",
+            real_date: "",
+            legal_date: "",
+        });
+        const handleFieldChange = (fieldName: keyof FormModalData, value: string | number | null) => {
+            setFormData((prev) => ({
+                ...prev,
+                [fieldName]: value,
+            }));
+        };
+
+        const handleRegister = () => {
+            console.log("Datos listos para enviar:", formData);
+            addNewRegister(formData);
+            setFormData({ id:"", type: "Alta", cause: "", reason: "", real_date: "", legal_date: "" });
+        };
+
+        return (
+            <Modal styles="" width="md:w-5/10 w-9/10" open={openModalStart} setOpen={setOpenModalStart}>
+                <div className=" flex flex-col items-center p-4">
+                    <input 
+                        type="hidden" 
+                        name="history_records" 
+                        value={JSON.stringify(registers)}
+                        required
+                    />
+                    <span className="text-primary font-bold text-center uppercase"> Registrar Alta </span>
+                    <Input
+                        label="Fecha de ingreso (REAL)"
+                        name="real_date" 
+                        type="date"
+                        onChange={(val) => handleFieldChange("real_date", val)}
+                    />
+                    <Input
+                        label="Fecha de ingreso (LEGAL)"
+                        name="legal_date" 
+                        type="date" 
+                        onChange={(val) => handleFieldChange("legal_date", val)}
+                    />
+                    <Button 
+                        color="success" 
+                        style="uppercase" 
+                        wide 
+                        rounded
+                        onClick={handleRegister}
+                    >
+                        Registrar 
+                    </Button>
+                </div>
+            </Modal>
+        )
+    }
+    
+    function SeparationModal(){
+        const [formData, setFormData] = useState<FormModalData >({
+            id: "",
+            type: "Baja",
+            cause: "",
+            reason: "",
+            real_date: "",
+            legal_date: "",
+        });
+        const handleFieldChange = (fieldName: keyof FormModalData , value: string | number | null) => {
+            setFormData((prev) => ({
+                ...prev,
+                [fieldName]: value,
+            }));
+        };
+
+        const handleRegister = () => {
+            console.log("Datos listos para enviar:", formData);
+            addNewRegister(formData);
+            setFormData({ id:"", type: "Baja", cause: "", reason: "", real_date: "", legal_date: "" });
+        };
+
+        return (
+            <Modal styles="" width="md:w-5/10 w-9/10 h-auto" open={openModalSeparation} setOpen={setOpenModalSeparation}>
+                <div className=" flex flex-col items-center p-4">
+                    <span className="text-primary font-bold text-center uppercase"> Registrar Baja </span>
+                    <Dropdown
+                        label="Motivo de la baja"
+                        name="reason"
+                        options={[
+                            {id: "1", name: "Jubilación"},
+                            {id: "2", name: "Liquidación"},
+                            {id: "3", name: "Parcial"},
+                            {id: "4", name: "Renuncia"},
+                        ]}
+                        onChange={(val) => handleFieldChange("reason", val)}
+                        returnName
+                    />
+                    <Input
+                        label="Fecha de salida (REAL)"
+                        name="real_date" 
+                        type="date"
+                        onChange={(val) => handleFieldChange("real_date", val)}
+                    />
+                    <Input
+                        label="Fecha de salida (LEGAL)"
+                        name="legal_date" 
+                        type="date" 
+                        onChange={(val) => handleFieldChange("legal_date", val)}
+                    />
+                    <Textarea
+                        label="Causa de la baja"
+                        name="cause"
+                        placeholder="Detallanos la causa de la baja."
+                        maxLength={256}
+                        rows={4}
+                        onChange={(val) => handleFieldChange("cause", val)}
+                    />
+                    
+                    <Button 
+                        color="success" 
+                        style="uppercase" 
+                        wide 
+                        rounded
+                        onClick={handleRegister}
+                    >
+                        Registrar 
+                    </Button>
+                </div>
+            </Modal>
+        )
+    }
+
+    return (
+        <div className="p-2 flex flex-col justify-center">
+            <StartModal />
+            <SeparationModal />
+            <span className="text-primary font-bold text-center"> {title} </span>
+            <div className="border border-secondary p-4 rounded-lg flex flex-col gap-2">
+                <div className="w-full flex flex-col sm:flex-row gap-2">
+                    <div className="flex-1">
+                        <Button color="primary" wide rounded onClick={() => { setOpenModalStart(true); setOpenModalSeparation(false); }}> 
+                            <FontAwesomeIcon icon={faPlus} /> Registrar alta 
+                        </Button>
+                    </div>
+                    <div className="flex-1">
+                        <Button color="primary" wide rounded onClick={() => { setOpenModalSeparation(true); setOpenModalStart(false); }}> 
+                            <FontAwesomeIcon icon={faPlus} /> Registrar baja 
+                        </Button>
+                    </div>
+                </div>
+
+                {/* Renderizado de las HistoryCard optimizadas con una Key única */}
+                <div className="flex flex-col items-center gap-3 mt-2">
+                    {registers.length > 0 ? 
+                        registers.map((reg, index) => (
+                            <div key={`register-${index}`} className="w-full flex justify-center">
+                                <HistoryCard onDelete={() => deleteRegister(reg.id)}  index={index} register={reg} />
+                            </div>
+                        ))
+                        :
+                        <span className="text-placeholder font-light"> No hay registros aun... </span>
+                    }
+                </div>
+            </div>
+        </div>
+    );
+}
+
 export function CreateEmployeeAdminFormContact(){
     return(
         <div className="p-2 flex flex-col justify-center">
@@ -216,7 +423,7 @@ export function CreateEmployeeAdminFormContact(){
                 label="Teléfono fijo"
                 name="landline_phone"
                 type="number"
-                placeholder="491-88-88"
+                placeholder="4918888"
                 icon={faPhone}
             />
         </div>

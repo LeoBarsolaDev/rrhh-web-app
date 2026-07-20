@@ -111,4 +111,25 @@ body {
 
 html, body, #root {
   height: 100%;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-secondary) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  /* Usamos la variable de tu tema, dándole un color sólido o usando la opacidad nativa del navegador */
+  background-color: var(--color-secondary);
+  border-radius: 9999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-primary);
 }
