@@ -38,7 +38,7 @@ export function Alert({
     return (
     <div
         className={`
-            fixed left-1/2 -translate-x-1/2 top-16 z-20
+            fixed left-1/2 -translate-x-1/2 top-16 z-100
             border-2 rounded-md px-4 py-2 flex items-center gap-2
             ${typeStyles} ${visibility}
             transition-all duration-300 ease-in-out

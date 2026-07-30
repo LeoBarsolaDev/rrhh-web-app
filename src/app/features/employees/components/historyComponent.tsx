@@ -3,7 +3,7 @@ import { Button } from "../../../shared/components/button";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 export interface RegisterProps {
-    id?: string; // Agregamos un identificador único
+    id?: string;
     type: string | null;
     cause: string | null;
     reason: string | null;
@@ -14,7 +14,8 @@ export interface RegisterProps {
 interface HistoryCardProps {
     register: RegisterProps;
     index: number;
-    onDelete: () => void | null; // Prop para notificar al padre la eliminación
+    // ✅ Corregido: '?' permite pasar undefined, null o directamente no enviarlo
+    onDelete?: (() => void) | null; 
 }
 
 export default function HistoryCard({ register, index, onDelete }: HistoryCardProps) {
@@ -22,7 +23,6 @@ export default function HistoryCard({ register, index, onDelete }: HistoryCardPr
 
     return (
         <div className="flex flex-col bg-secondary p-4 rounded-xl border border-white/5 shadow-md w-full transition-all hover:border-white/10">
-            {/* ... Fila Principal: Estado y Fechas (Tu código visual permanece idéntico) ... */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 w-full">
                 <div>
                     <span className={`inline-flex px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-md ${
@@ -43,7 +43,6 @@ export default function HistoryCard({ register, index, onDelete }: HistoryCardPr
                 </div>
             </div>
 
-            {/* ... Detalles específicos (Tu código visual) ... */}
             {!isAlta && (register.reason || register.cause) && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4 pt-4 border-t border-white/5 text-xs md:text-sm">
                     {register.reason && (
@@ -61,13 +60,12 @@ export default function HistoryCard({ register, index, onDelete }: HistoryCardPr
                 </div>
             )}
 
-            {/* Asignamos la función onDelete al botón */}
-            { onDelete == null ? 
-                <></> : 
+            {/* ✅ Validación limpia de la prop opcional */}
+            {onDelete && (
                 <Button color="danger" style="text-sm mt-2" rounded onClick={onDelete}> 
                     <FontAwesomeIcon icon={faTrash} /> Eliminar 
                 </Button>
-            }
+            )}
         </div>
     );
 }

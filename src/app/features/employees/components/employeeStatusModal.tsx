@@ -28,8 +28,8 @@ export default function EmployeeStatusModal({open, setOpen, employee} : props){
                 <h4 className="text-3xl font-extrabold text-red-700 text-center">ATENCIÓN</h4>
                 <h5 className="text-foreground text-lg text-center">¿Está seguro que desea Dar de {employee.status === "Activo" ? "Baja" : "Alta"} al empleado: <b className="italic">{employee.full_name}</b>?</h5>
                 <div className="flex flex-col md:flex-row gap-4 w-full justify-center items-center">
-                    <Button wide rounded color="done" onClick={handleAccept}> <FontAwesomeIcon icon={faCheck} /> Aceptar</Button>
-                    <Button wide rounded color="delete" onClick={() => { setOpen(false) }}> <FontAwesomeIcon icon={faXmark} /> Cancelar</Button>
+                    <Button wide rounded color="success" onClick={handleAccept}> <FontAwesomeIcon icon={faCheck} /> Aceptar</Button>
+                    <Button wide rounded color="danger" onClick={() => { setOpen(false) }}> <FontAwesomeIcon icon={faXmark} /> Cancelar</Button>
                 </div>
             </div>
             :

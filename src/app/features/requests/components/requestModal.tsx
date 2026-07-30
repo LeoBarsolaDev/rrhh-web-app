@@ -109,8 +109,8 @@ export default function RequestModal({request, open, setOpen} : {request:Request
                     </div>
 
                     <div className="bg-secondary py-2 px-4 rounded-2xl mt-2 w-full flex gap-2 flex-col sm:flex-row">
-                        <Button wide rounded color="done" onClick={() => { handleEditRequest({req_id: request?.id, status: "Aprobada"}, "La Solicitud fué Aprobada") }}> <FontAwesomeIcon icon={faCheck} /> Aceptar Solicitud </Button> 
-                        <Button wide rounded color="delete" onClick={() => { handleEditRequest({req_id: request?.id, status: "Rechazada"}, "La Solicitud fué Rechazada") }}> <FontAwesomeIcon icon={faXmark} /> Rechazar Solicitud </Button> 
+                        <Button wide rounded color="success" onClick={() => { handleEditRequest({req_id: request?.id, status: "Aprobada"}, "La Solicitud fué Aprobada") }}> <FontAwesomeIcon icon={faCheck} /> Aceptar Solicitud </Button> 
+                        <Button wide rounded color="danger" onClick={() => { handleEditRequest({req_id: request?.id, status: "Rechazada"}, "La Solicitud fué Rechazada") }}> <FontAwesomeIcon icon={faXmark} /> Rechazar Solicitud </Button> 
                     </div>
                 </div>
             </div>

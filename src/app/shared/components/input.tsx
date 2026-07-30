@@ -9,18 +9,31 @@ interface props {
     name?: string;
     label?: string;
     placeholder?: string;
+    defaultValue?: string | number; // ✅ Agregado aquí
     icon?: IconDefinition;
-    required?:boolean;
+    required?: boolean;
     isValid?: "" | "not valid" | "valid";
     invalidMessage?: string;
-    isPassword?:boolean;
+    isPassword?: boolean;
     onChange?: (value: string | number | null) => void;
     onShowPassword?: () => void;
 }
 
-export default function Input({type="text", name="",label="", placeholder="", required=false, isValid="", invalidMessage="", isPassword=false, icon, onChange} : props){
+export default function Input({
+    type = "text",
+    name = "",
+    label = "",
+    placeholder = "",
+    defaultValue, // ✅ Recibido aquí
+    required = false,
+    isValid = "",
+    invalidMessage = "",
+    isPassword = false,
+    icon,
+    onChange
+}: props) {
     const [showPassword, setShowPassword] = useState<boolean>(false);
-    function onShowPassword(){
+    function onShowPassword() {
         setShowPassword(!showPassword);
     }
 
@@ -39,42 +52,42 @@ export default function Input({type="text", name="",label="", placeholder="", re
 
         onChange(value);
     };
-    
-    return(
+
+    return (
         <div className="
             flex flex-col
             px-1 py-2 w-full
             group relative
         ">
-            { invalidMessage !== "" ?
-                (
-                    <span className={`
-                        absolute -bottom-2
-                        text-xs text-red-600 pl-2
-                        ${isValid === "not valid" ? "opacity-100" : " opacity-0"} 
-                    `}>
-                        {invalidMessage !== "" ? invalidMessage : "Datos invalidos"}
-                    </span>
-                ) : (<></>)
-            }
+            {invalidMessage !== "" ? (
+                <span className={`
+                    absolute -bottom-2
+                    text-xs text-red-600 pl-2
+                    ${isValid === "not valid" ? "opacity-100" : "opacity-0"} 
+                `}>
+                    {invalidMessage !== "" ? invalidMessage : "Datos invalidos"}
+                </span>
+            ) : (<></>)}
+
             <label htmlFor={name} className={`
-                text-foreground  font-semibold
+                text-foreground font-semibold
                 transition-all duration-150
                 ${isValid === "not valid" ? "text-red-700" : "group-focus-within:text-primary"}      
             `}>
                 {label}
             </label>
+
             <div className={`
                 px-2 py-1
                 rounded-lg
                 bg-secondary
                 flex flex-row
                 border-red-700
-                ${isValid === "not valid" ? "border" : " border-none"}    
-            `} >
+                ${isValid === "not valid" ? "border" : "border-none"}    
+            `}>
                 {icon && (
                     <span className={`
-                        mr-1 text-foreground  transition-all duration-150
+                        mr-1 text-foreground transition-all duration-150
                         ${isValid === "not valid" ? "text-red-700" : "group-focus-within:text-primary"}  
                     `}>
                         <FontAwesomeIcon icon={icon} />
@@ -88,6 +101,7 @@ export default function Input({type="text", name="",label="", placeholder="", re
                         name={name} 
                         required={required}
                         placeholder={placeholder}
+                        defaultValue={defaultValue} // ✅ Pasado al elemento HTML
                         onChange={handleInputChange} 
                         className={`
                             w-full
@@ -101,11 +115,12 @@ export default function Input({type="text", name="",label="", placeholder="", re
                 ) : (
                     <>
                         <input
-                            type={ showPassword ? "text" : "password" } 
+                            type={showPassword ? "text" : "password"} 
                             id={name} 
                             name={name} 
                             required={required}
-                            placeholder={ showPassword ? "Contraseña123" : "••••••••" } 
+                            placeholder={showPassword ? "Contraseña123" : "••••••••"} 
+                            defaultValue={defaultValue} // ✅ Pasado al elemento HTML
                             onChange={handleInputChange} 
                             className="
                                 w-full
@@ -115,7 +130,7 @@ export default function Input({type="text", name="",label="", placeholder="", re
                         "/>
                         
                         <button 
-                            className="mr-1 text-light-01 group-focus-within:text-light-03 transition-all duration-150 "
+                            className="mr-1 text-light-01 group-focus-within:text-light-03 transition-all duration-150"
                             onClick={onShowPassword} 
                             type="button" 
                         >
@@ -125,5 +140,5 @@ export default function Input({type="text", name="",label="", placeholder="", re
                 )}
             </div>
         </div>
-    )
+    );
 }

@@ -139,10 +139,9 @@ export function CreateEmployeeAdminFormWork({categories} : {categories: any}){
             />
 
             <Dropdown
-                label="Sub-categoria"
+                label="Sub-categoria (opcional)"
                 name="subcategory"
                 icon={faCodeBranch}
-                required
                 options={
                     selectedCategory?.subcategories?.length > 0 
                         ? selectedCategory.subcategories.map((sub: any) => ({
@@ -154,10 +153,9 @@ export function CreateEmployeeAdminFormWork({categories} : {categories: any}){
             />
 
             <Dropdown
-                label="Area"
+                label="Area (opcional)"
                 name="area" // Corregido el name
                 icon={faBuilding}
-                required
                 options={[
                     {name:'EMPRENDEDORA', id:'1'}, 
                     {name:'CONSTRUCTORA', id:'2'}, 
@@ -171,10 +169,9 @@ export function CreateEmployeeAdminFormWork({categories} : {categories: any}){
             />
 
             <Dropdown
-                label="Departamento"
+                label="Departamento (opcional)"
                 name="department"
                 icon={faBriefcase}
-                required
                 options={[
                     { name: 'OFICINA CENTRAL', id: "1" },
                     { name: 'FINANZAS', id: "2" },
@@ -402,25 +399,23 @@ export function CreateEmployeeAdminFormContact(){
         <div className="p-2 flex flex-col justify-center">
             <span className="text-primary font-bold text-center"> Administrativo </span>
             <Input 
-                label="E-Mail"
+                label="E-Mail (opcional)"
                 name="email"
                 type="email"
                 placeholder="user@example.com"
                 icon={faEnvelope}
-                required
             />
 
             <Input 
-                label="Numero de celular"
+                label="Numero de celular (opcional)"
                 name="mobile_phone"
                 type="text"
                 placeholder="2648-888-888"
                 icon={faMobile}
-                required
             />
 
             <Input 
-                label="Teléfono fijo"
+                label="Teléfono fijo (opcional)"
                 name="landline_phone"
                 type="number"
                 placeholder="4918888"

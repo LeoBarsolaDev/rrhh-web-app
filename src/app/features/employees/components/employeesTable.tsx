@@ -8,8 +8,8 @@ import EmployeeStatusModal from "./employeeStatusModal";
 import Badge from "../../../shared/components/badge";
 
 interface props {
-    selectedRow: number | null;
-    setSelectedRow: React.Dispatch<React.SetStateAction<number | null>>;
+    selectedEmployeeId: string | number | null;
+    setSelectedEmployeeId: React.Dispatch<React.SetStateAction<string | number | null>>;
     infoModalOpen: boolean;
     infoModalSetOpen: React.Dispatch<React.SetStateAction<boolean>>;
     editModalOpen: boolean;
@@ -19,8 +19,8 @@ interface props {
 }
 
 export default function EmployeeTable({
-    selectedRow, 
-    setSelectedRow, 
+    selectedEmployeeId, 
+    setSelectedEmployeeId, 
     infoModalOpen, 
     infoModalSetOpen, 
     editModalOpen, 
@@ -29,12 +29,24 @@ export default function EmployeeTable({
     setStatusModalOpen,
 } : props){
     const {
-        employees,
-        rows,
+        employees = [],
+        rows = [],
     } = useEmployeeTable();
     
-    const [searchText, setSearchText] = useState<string>("")
-    const selectedEmployee = selectedRow !== null ? employees[selectedRow] : null;
+    const [searchText, setSearchText] = useState<string>("");
+
+    // Buscamos al empleado asegurándonos de convertir todo a string para evitar errores tipo number vs string
+    const selectedEmployee = employees.find(emp => {
+        if (selectedEmployeeId === null || selectedEmployeeId === undefined) return false;
+        const targetId = String(selectedEmployeeId);
+        
+        return (
+            (emp.id !== undefined && String(emp.id) === targetId) ||
+            (emp.file_number !== undefined && String(emp.file_number) === targetId) ||
+            (emp["# N° LEGAJO"] !== undefined && String(emp["# N° LEGAJO"]) === targetId)
+        );
+    }) ?? null;
+
     const STATUS_MAP = {
         'Activo': 'bg-green-200 text-green-800 border-green-200',
         'De baja': 'bg-red-100 text-red-700 border-red-200',
@@ -51,24 +63,24 @@ export default function EmployeeTable({
             );
         }
         
-        // Si no es la columna Estado, dejamos que la tabla renderice el valor normal
         return value;
     };
 
     return(
-        <div className="w-full h-full">
+        <div className="w-full flex flex-col gap-4">
             <SearchBar value={searchText} onChange={(val) => setSearchText(val)} />
+            
             <Table
                 data={rows}
-                selectedRow={selectedRow}
+                selectedEmployeeId={selectedEmployeeId}
                 renderCell={renderEmployeeCell}
                 search={{
                     query: searchText,
-                    // columns: ["# N° LEGAJO", "NOMBRE COMPLETO"]
                 }}
-                onRowClick={(row, index) => {
-                    console.log(row)
-                    setSelectedRow(index);
+                onRowClick={(row) => {
+                    // Extraemos la clave única del elemento seleccionado
+                    const rowId = row.id ?? row["# N° LEGAJO"] ?? row.legajo;
+                    setSelectedEmployeeId(rowId);
                 }}
             />
 
@@ -76,5 +88,5 @@ export default function EmployeeTable({
             <EmployeeEditModal open={editModalOpen} setOpen={editModalSetOpen} employee={selectedEmployee} />
             <EmployeeStatusModal open={statusModalOpen} setOpen={setStatusModalOpen} employee={selectedEmployee} />
         </div>
-    )
+    );
 }

@@ -4,29 +4,29 @@ export type RowData = { [key: string]: any };
 
 interface SearchCriteria {
     query: string;
-    columns?: string[]; // Opcional: filtrar solo en estas columnas
+    columns?: string[];
 }
 
 interface DataTableProps {
     data?: RowData[] | null;
     onRowClick?: (row: RowData, index: number) => void;
-    selectedRow?: number | null;
+    selectedEmployeeId?: string | number | null;
+    idKey?: string;
     renderCell?: (key: string, value: any, row: RowData) => ReactNode;
     excludeColumns?: string[];
-    // Nueva prop de funcionalidad
     search?: SearchCriteria;
 }
 
 export default function Table({
     data = [],
     onRowClick,
-    selectedRow = null,
+    selectedEmployeeId = null,
+    idKey = "id",
     renderCell,
     excludeColumns = [],
     search
 }: DataTableProps) {
 
-    // 1. Manejo de estado de carga o vacío
     if (!data || data.length === 0) {
         return (
             <div className="flex flex-col items-center justify-center p-10 bg-dark-01 rounded-xl border border-dashed border-secondary">
@@ -35,15 +35,12 @@ export default function Table({
         );
     }
 
-    // 2. Filtramos las columnas para no mostrar IDs o datos internos si no es necesario
     const columns = Object.keys(data[0]).filter(col => !excludeColumns.includes(col));
 
     const filteredData = data.filter((row) => {
-        // Si no hay texto de búsqueda, mostramos todo
         if (!search?.query) return true;
 
         const term = search.query.toLowerCase();
-        // Si search.columns existe, busca ahí. Si no, busca en todas las visibles.
         const targets = search.columns || columns;
 
         return targets.some(key => {
@@ -69,13 +66,18 @@ export default function Table({
                         ))}
                     </div>
 
-                    {/* ROWS - Corregido: Solo un map sobre filteredData */}
+                    {/* ROWS */}
                     <div className="flex flex-col gap-1 p-2">
                         {filteredData.map((row, rowIndex) => {
-                            const isSelected = selectedRow === rowIndex;
+                            const rowId = row[idKey] ?? row["id"] ?? row["# N° LEGAJO"] ?? row.legajo ?? rowIndex;
+                            
+                            const isSelected = selectedEmployeeId !== null && 
+                                               selectedEmployeeId !== undefined && 
+                                               String(selectedEmployeeId) === String(rowId);
+
                             return (
                                 <div
-                                    key={rowIndex}
+                                    key={`row-${rowId}-${rowIndex}`}
                                     onClick={() => onRowClick?.(row, rowIndex)}
                                     className={`
                                         grid gap-4 p-4 cursor-pointer transition-all duration-200 rounded-lg
@@ -95,17 +97,21 @@ export default function Table({
                 </div>
             </div>
 
-            {/* MOBILE CARDS - Corregido: Solo un map sobre filteredData */}
+            {/* MOBILE CARDS */}
             <div className="md:hidden flex flex-col gap-3 p-3">
                 {filteredData.map((row, rowIndex) => {
-                    const isSelected = selectedRow === rowIndex;
+                    const rowId = row[idKey] ?? row["id"] ?? row["# N° LEGAJO"] ?? row.legajo ?? rowIndex;
+                    const isSelected = selectedEmployeeId !== null && 
+                                       selectedEmployeeId !== undefined && 
+                                       String(selectedEmployeeId) === String(rowId);
+
                     const titleKey = columns[0];
                     const subtitleKey = columns[1];
                     const detailColumns = columns.slice(2);
 
                     return (
                         <div
-                            key={rowIndex}
+                            key={`mobile-row-${rowId}-${rowIndex}`}
                             onClick={() => onRowClick?.(row, rowIndex)}
                             className={`
                                 flex flex-col gap-4 p-5 rounded-2xl border transition-all duration-300 ease-out cursor-pointer

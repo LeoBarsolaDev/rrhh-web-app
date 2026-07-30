@@ -86,11 +86,10 @@ export function CreateEmployeeWorkerFormPersonal({setIsCuilValid} : {setIsCuilVa
 
             {/* ENUM: ID igual al Nombre */}
             <Dropdown
-                label="Estado civil"
+                label="Estado civil  (opcional)"
                 icon={faChurch}
                 name="marital_status"
                 placeholder="Seleccione el Estado civil"
-                required
                 options={[
                     {name:'Soltero', id:'Soltero'}, 
                     {name:'Casado', id:'Casado'}, 
@@ -133,10 +132,9 @@ export function CreateEmployeeWorkerFormWork({categories} : {categories: any}){
             />
 
             <Dropdown
-                label="Sub-categoria"
+                label="Sub-categoria (opcional)"
                 name="subcategory"
                 icon={faCodeBranch}
-                required
                 options={
                     selectedCategory?.subcategories?.length > 0 
                         ? selectedCategory.subcategories.map((sub: any) => ({
@@ -149,11 +147,10 @@ export function CreateEmployeeWorkerFormWork({categories} : {categories: any}){
 
             {/* FK: ID numérico (Mapeado al campo 'field' de la DB) */}
             <Dropdown
-                label="Rubro"
+                label="Rubro (opcional)"
                 icon={faSitemap}
                 name="field"
                 placeholder="Seleccione el Rubro"
-                required
                 options={[
                     { name: 'Obrero', id: '7' },
                     { name: 'Yesero', id: '1' },
@@ -175,9 +172,9 @@ export function CreateEmployeeWorkerFormContact(){
     return(
         <div className="p-2 flex flex-col justify-center">
             <span className="text-primary font-bold text-center"> Obrero </span>
-            <Input placeholder="user@example.com" label="E-Mail" name="email" type="email" icon={faEnvelope} />
-            <Input placeholder="2646888888" required label="Numero de celular" name="mobile_phone" type="number" icon={faMobile} />
-            <Input placeholder="4918888" label="Teléfono fijo" name="landline_phone" type="number" icon={faPhone} />
+            <Input placeholder="user@example.com" label="E-Mail  (opcional)" name="email" type="email" icon={faEnvelope} />
+            <Input placeholder="2646888888" label="Numero de celular  (opcional)" name="mobile_phone" type="number" icon={faMobile} />
+            <Input placeholder="4918888" label="Teléfono fijo  (opcional)" name="landline_phone" type="number" icon={faPhone} />
         </div>
     )
 }

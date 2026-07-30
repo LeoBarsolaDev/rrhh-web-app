@@ -62,15 +62,15 @@ export function Wizard({ children }: { children: React.ReactNode }) {
 
             {/* Controles (mismo código) */}
             <div className="w-full mt-4 flex justify-evenly">
-                <Button type="button" color="primary" onClick={prev} disabled={index === 0}>
+                <Button type="button" color="primary" onClick={prev} rounded disabled={index === 0}>
                     <FontAwesomeIcon icon={faLeftLong} />
-                    </Button>
+                </Button>
 
-                    {/* Ocultamos el botón 'Next' en el último paso para que no estorbe al botón 'Submit' de tu página */}
-                    {index < steps.length - 1 && (
-                    <Button type="button" color="primary" onClick={next}>
-                        <FontAwesomeIcon icon={faRightLong} />
-                    </Button>
+                {/* Ocultamos el botón 'Next' en el último paso para que no estorbe al botón 'Submit' de tu página */}
+                {index < steps.length - 1 && (
+                <Button type="button" color="primary" rounded onClick={next}>
+                    <FontAwesomeIcon icon={faRightLong} />
+                </Button>
                 )}
             </div>
         </div>
