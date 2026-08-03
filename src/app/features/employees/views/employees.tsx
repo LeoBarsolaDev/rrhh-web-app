@@ -10,7 +10,7 @@ import { faListCheck, faTools, faUserPlus, faUserTie, faFilter } from "@fortawes
 
 import { useMemo, useState, useEffect } from "react";
 import { EmployeeCard } from "../components/employeeCard";
-import Tab from "../../../shared/components/tab";
+import Tab from "../../../shared/components/Tab";
 
 const ITEMS_PER_PAGE = 30;
 
