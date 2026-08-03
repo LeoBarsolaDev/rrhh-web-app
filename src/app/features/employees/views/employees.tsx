@@ -7,9 +7,10 @@ import EmployeeInfoModal from "../components/employeeInfoModal";
 import EmployeeEditModal from "../components/employeeEditModal";
 import { Alert } from "../../../shared/components/alert";
 import { faListCheck, faTools, faUserPlus, faUserTie, faFilter } from "@fortawesome/free-solid-svg-icons";
-import Tab from "../../../shared/components/tab";
+
 import { useMemo, useState, useEffect } from "react";
 import { EmployeeCard } from "../components/employeeCard";
+import Tab from "../../../shared/components/tab";
 
 const ITEMS_PER_PAGE = 30;
 
