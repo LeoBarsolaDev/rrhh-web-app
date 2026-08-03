@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faClock, faFileCircleCheck, faListCheck, faTicket, faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
 import RequestsTable from "../components/requestsTable";
 import { useState } from "react";
-import Tab from "../../../shared/components/Tab";
+import Tab from "../../../shared/components/tab";
 
 
 

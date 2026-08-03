@@ -53,7 +53,7 @@ function Sidebar() {
     if (!isMdUp) {
       setOpenNavbar(true);
     } else {
-      navigate("/");
+      navigate("/employees");
     }
   };
 
