@@ -1,4 +1,4 @@
-import { faBuilding, faCalendarPlus, faChurch, faCodeBranch, faEnvelope, faHouse, faIdCard, faMobile, faPhone, faPlus, faSitemap, faTags, faUser, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faBuilding, faChurch, faCodeBranch, faEnvelope, faHouse, faIdCard, faMobile, faPhone, faPlus, faSitemap, faTags, faUser, faUsers } from "@fortawesome/free-solid-svg-icons";
 import Dropdown from "../../../shared/components/dropdown";
 import Input from "../../../shared/components/input";
 import type { EmployeeType } from "../types/employeeType";

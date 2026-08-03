@@ -1,4 +1,4 @@
-import { faBirthdayCake, faCalendarPlus, faChurch, faCodeBranch, faEnvelope, faHouse, faIdCard, faMobile, faPhone, faSitemap, faTags, faVenusMars } from "@fortawesome/free-solid-svg-icons";
+import { faBirthdayCake, faChurch, faCodeBranch, faEnvelope, faHouse, faIdCard, faMobile, faPhone, faSitemap, faTags, faVenusMars } from "@fortawesome/free-solid-svg-icons";
 import Dropdown from "../../../shared/components/dropdown";
 import Input from "../../../shared/components/input";
 import { useEffect, useState } from "react";

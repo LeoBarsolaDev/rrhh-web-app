@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { api } from "../../../shared/services/apiClient";
 import type { EmployeeType } from "../types/employeeType";
 import type { EmployeeResponse } from "../types/employeeResponse";
 import { readEmployees } from "../services/getEmployeesService";

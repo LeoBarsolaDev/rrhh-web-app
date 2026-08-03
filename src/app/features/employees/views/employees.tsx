@@ -21,9 +21,7 @@ export default function EmployeesPage(){
     setAlertOpen,
 
     employees,
-    fetchEmployees,
     selectedEmployee,
-    setSelectedEmployee,
 
     searchQuery,
     setSearchQuery,

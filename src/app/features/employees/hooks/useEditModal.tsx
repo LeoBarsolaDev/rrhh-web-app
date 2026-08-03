@@ -40,5 +40,8 @@ export default function useEditModal(){
         isCuilValid,
         setIsCuilValid,
         setAlertOpen,
+        setIsSending,
+        setAlertType,
+        setMessage,
     }
 }

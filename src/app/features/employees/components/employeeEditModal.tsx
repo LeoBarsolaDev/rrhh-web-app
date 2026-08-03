@@ -34,6 +34,9 @@ export default function EmployeeEditModal({ open, setOpen, employee, onSuccess, 
 
   return (
     <Modal open={open} setOpen={setOpen}>
+      <Alert type={alertType} show={alertOpen} onClose={() => {setAlertOpen(false)}} >
+          {message}
+      </Alert>
       <div
         className="
           w-full py-2 px-0 flex flex-col gap-0 h-full
