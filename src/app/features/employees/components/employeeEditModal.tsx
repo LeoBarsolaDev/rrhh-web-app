@@ -49,8 +49,9 @@ export default function EmployeeEditModal({ open, setOpen, employee, onSuccess, 
         "
       >
 
-        {employee ? (
+        {employee && open ? (
           <Form
+            key={`${employee.id}-${open}`} /* <-- Esto fuerza la reinicialización completa */
             url="/rrhh/employees"
             method="PATCH"
             onError={onError}
@@ -68,9 +69,6 @@ export default function EmployeeEditModal({ open, setOpen, employee, onSuccess, 
                   setIsCuilValid={setIsCuilValid}
                 />
                 <input type="hidden" name="emp_id" defaultValue={employee.id} />
-                <Button type="submit" rounded wide>
-                  {isSending ? "Guardando..." : "Guardar"}
-                </Button>
               </Step>
 
               {/* Paso 2: Información Laboral */}
@@ -91,9 +89,6 @@ export default function EmployeeEditModal({ open, setOpen, employee, onSuccess, 
                   />
                 )}
                 <input type="hidden" name="emp_id" defaultValue={employee.id} />
-                <Button type="submit" rounded wide>
-                  {isSending ? "Guardando..." : "Guardar"}
-                </Button>
               </Step>
 
               {/* Paso 3: Historial de Bajas */}
@@ -103,9 +98,6 @@ export default function EmployeeEditModal({ open, setOpen, employee, onSuccess, 
                   history={employee.history ?? []}
                 />
                 <input type="hidden" name="emp_id" defaultValue={employee.id} />
-                <Button type="submit" rounded wide>
-                  {isSending ? "Guardando..." : "Guardar"}
-                </Button>
               </Step>
 
               {/* Paso 4: Información de Contacto */}
@@ -115,11 +107,12 @@ export default function EmployeeEditModal({ open, setOpen, employee, onSuccess, 
                 </span>
                 <EditEmployeeContact employee={employee} />
                 <input type="hidden" name="emp_id" defaultValue={employee.id} />
-                <Button type="submit" rounded wide>
-                  {isSending ? "Guardando..." : "Guardar"}
-                </Button>
+                
               </Step>
             </Wizard>
+            <Button type="submit" rounded wide>
+              {isSending ? "Guardando..." : "Guardar"}
+            </Button>
           </Form>
         ) : null}
       </div>

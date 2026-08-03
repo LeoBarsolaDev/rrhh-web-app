@@ -11,6 +11,8 @@ export default function useEmployeesPage(){
 
     const [infoModalOpen, setInfoModalOpen] = useState<boolean>(false);
     const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
+    const [selectedTab, setSelectedTab] = useState<"all" | "admins" | "workers">("all");
+
 
 
     const [employees, setEmployees] = useState<EmployeeType[]>([]);
@@ -91,6 +93,9 @@ export default function useEmployeesPage(){
         handleEdit,
 
         onEditSuccess,
-        onError
+        onError,
+
+        selectedTab,
+        setSelectedTab
     }
 }

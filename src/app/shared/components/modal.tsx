@@ -64,16 +64,9 @@ export default function Modal({open, children ,setOpen, styles="", width=""} : M
                     /* 'min-h-0' es la clave para que Flexbox permita el scroll interno */
                     min-h-0 
                     grow
-                    overflow-y-auto 
+                    overflow-y-hidden 
                     overflow-x-hidden
                     pr-2
-                    
-                    /* Estilización del Scrollbar */
-                    [&::-webkit-scrollbar]:w-2
-                    [&::-webkit-scrollbar-track]:bg-transparent
-                    [&::-webkit-scrollbar-thumb]:bg-primary/20
-                    [&::-webkit-scrollbar-thumb]:rounded-full
-                    hover:[&::-webkit-scrollbar-thumb]:bg-primary/50
                 ">
                     {children}
                 </div>

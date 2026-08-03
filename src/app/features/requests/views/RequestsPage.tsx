@@ -1,47 +1,12 @@
 import Sidebar from "../../../shared/components/sidebar";
 import Frame from "../../../shared/components/frame";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleCheck, faClock, faFileCircleCheck, faListCheck, faTicket, faXmarkCircle, type IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck, faClock, faFileCircleCheck, faListCheck, faTicket, faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
 import RequestsTable from "../components/requestsTable";
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
+import Tab from "../../../shared/components/Tab";
 
-function Tab({
-        value,
-        active,
-        children,
-        icon,
-        onClick
-    }: {
-        value: string,
-        active: boolean,
-        children: ReactNode,
-        icon: IconDefinition,
-        onClick: () => void
-    }) {
-        return (
-            <li
-                className={`w-full p-1 cursor-pointer transition-all duration-150 flex justify-center items-center gap-1
-                    ${active ? "bg-separator font-bold" : "bg-transparent hover:bg-separator hover:text-foreground text-placeholder"}
-                `}
-                onClick={onClick}
-                key={value}
-            >
-                <span className={`
-                    
-                    ${active ? "font-bold" : ""}
-                `}>
-                    <FontAwesomeIcon icon={icon} />
-                </span>
-                
-                <span className={`
-                    hidden md:inline-block
-                    ${active ? "font-bold" : ""}
-                `}>
-                    {children}
-                </span>
-            </li>
-        );
-    }
+
 
 export default function RequestsPage(){
     const [selectedTab, setSelectedTab] = useState<"all" | "pending" | "reviewed" | "approved" | "rejected">("all");

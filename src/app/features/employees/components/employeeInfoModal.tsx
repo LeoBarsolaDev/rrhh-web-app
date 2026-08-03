@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import Modal from "../../../shared/components/modal";
 import HistoryCard from "./historyComponent";
 
@@ -8,6 +9,16 @@ export interface props {
 }
 
 export default function EmployeeInfoModal({ open, setOpen, employee }: props) {
+  // Referencia al contenedor que tiene la propiedad overflow-y-auto
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  // Cada vez que el modal se abre o cambia el empleado, reiniciamos el scroll a 0
+  useEffect(() => {
+    if (open && scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop = 0;
+    }
+  }, [open, employee]);
+
   function InfoItem({ title, info }: { title: string; info: any }) {
     return (
       <span className="flex flex-col justify-center">
@@ -21,20 +32,14 @@ export default function EmployeeInfoModal({ open, setOpen, employee }: props) {
     );
   }
 
-  console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",employee)
-
   return (
     <Modal open={open} setOpen={setOpen}>
       <div
+        ref={scrollContainerRef}
         className="
-          w-full py-2 px-0 flex flex-col gap-0 h-full
+          w-full py-2 px-0 flex flex-col gap-0 h-128
           overflow-y-auto overflow-x-hidden
           scrollbar-thin scrollbar-thumb-primary scrollbar-track-transparent
-          [&::-webkit-scrollbar]:w-2
-          [&::-webkit-scrollbar-track]:bg-transparent
-          [&::-webkit-scrollbar-thumb]:bg-primary/20
-          [&::-webkit-scrollbar-thumb]:rounded-full
-          hover:[&::-webkit-scrollbar-thumb]:bg-primary/50
           mt-8
         "
       >
@@ -83,7 +88,7 @@ export default function EmployeeInfoModal({ open, setOpen, employee }: props) {
               </div>
             </div>
 
-            {/* Dirección blindada contra undefined/null */}
+            {/* Dirección */}
             <div
               className="
                 bg-secondary py-2 px-4 w-full rounded-2xl 

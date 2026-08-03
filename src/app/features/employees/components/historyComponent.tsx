@@ -14,15 +14,19 @@ export interface RegisterProps {
 interface HistoryCardProps {
     register: RegisterProps;
     index: number;
-    // ✅ Corregido: '?' permite pasar undefined, null o directamente no enviarlo
     onDelete?: (() => void) | null; 
 }
 
 export default function HistoryCard({ register, index, onDelete }: HistoryCardProps) {
     const isAlta = register.type === "Alta";
 
+    // Validamos la existencia real de los datos para la grilla
+    const hasReason = Boolean(register.reason && register.reason.trim() !== "");
+    const hasCause = Boolean(register.cause && register.cause.trim() !== "" && register.cause !== "-");
+    const hasOnlyOneField = (hasReason && !hasCause) || (!hasReason && hasCause);
+
     return (
-        <div className="flex flex-col bg-secondary p-4 rounded-xl border border-white/5 shadow-md w-full transition-all hover:border-white/10">
+        <div key={index} className="flex flex-col bg-secondary p-4 rounded-xl border border-white/5 shadow-md w-full transition-all hover:border-white/10">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 w-full">
                 <div>
                     <span className={`inline-flex px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-md ${
@@ -31,28 +35,42 @@ export default function HistoryCard({ register, index, onDelete }: HistoryCardPr
                         {isAlta ? "ALTA" : "BAJA"}
                     </span>
                 </div>
+
                 <div className="flex items-center gap-3 flex-wrap">
-                    <div className="flex items-center gap-2 bg-surface/60 px-3 py-1.5 rounded-lg border border-white/5 text-xs md:text-sm text-slate-300">
-                        <span className="text-slate-500 font-medium">REAL:</span>
-                        <span className="font-semibold">{register.real_date}</span>
-                    </div>
-                    <div className="flex items-center gap-2 bg-surface/60 px-3 py-1.5 rounded-lg border border-white/5 text-xs md:text-sm text-slate-300">
-                        <span className="text-slate-500 font-medium">LEGAL:</span>
-                        <span className="font-semibold">{register.legal_date}</span>
-                    </div>
+                    {isAlta ? (
+                        <>
+                            <div className="flex items-center gap-2 bg-surface/60 px-3 py-1.5 rounded-lg border border-white/5 text-xs md:text-sm text-slate-300">
+                                <span className="text-slate-500 font-medium">REAL:</span>
+                                <span className="font-semibold">{register.real_date}</span>
+                            </div>
+                            <div className="flex items-center gap-2 bg-surface/60 px-3 py-1.5 rounded-lg border border-white/5 text-xs md:text-sm text-slate-300">
+                                <span className="text-slate-500 font-medium">LEGAL:</span>
+                                <span className="font-semibold">{register.legal_date}</span>
+                            </div>
+                        </>
+                    ) : (
+                        /* Si es Baja: Solo muestra la fecha legal, sin texto ni fecha real */
+                        <div className="flex items-center bg-surface/60 px-3 py-1.5 rounded-lg border border-white/5 text-xs md:text-sm text-slate-300">
+                            <span className="font-semibold">{register.legal_date}</span>
+                        </div>
+                    )}
                 </div>
             </div>
 
-            {!isAlta && (register.reason || register.cause) && (
+            {!isAlta && (hasReason || hasCause) && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4 pt-4 border-t border-white/5 text-xs md:text-sm">
-                    {register.reason && (
-                        <div className="bg-surface/40 p-2.5 rounded-lg border border-white/5">
+                    {hasReason && (
+                        <div className={`bg-surface/40 p-2.5 rounded-lg border border-white/5 ${
+                            hasOnlyOneField ? "sm:col-span-2 w-full" : ""
+                        }`}>
                             <span className="text-slate-500 block text-[11px] uppercase tracking-wider font-medium mb-0.5">Motivo</span>
                             <p className="text-slate-200 font-medium">{register.reason}</p>
                         </div>
                     )}
-                    {register.cause && (
-                        <div className="bg-surface/40 p-2.5 rounded-lg border border-white/5">
+                    {hasCause && (
+                        <div className={`bg-surface/40 p-2.5 rounded-lg border border-white/5 ${
+                            hasOnlyOneField ? "sm:col-span-2 w-full" : ""
+                        }`}>
                             <span className="text-slate-500 block text-[11px] uppercase tracking-wider font-medium mb-0.5">Causa / Explicación</span>
                             <p className="text-slate-300 italic">"{register.cause}"</p>
                         </div>
@@ -60,7 +78,6 @@ export default function HistoryCard({ register, index, onDelete }: HistoryCardPr
                 </div>
             )}
 
-            {/* ✅ Validación limpia de la prop opcional */}
             {onDelete && (
                 <Button color="danger" style="text-sm mt-2" rounded onClick={onDelete}> 
                     <FontAwesomeIcon icon={faTrash} /> Eliminar 

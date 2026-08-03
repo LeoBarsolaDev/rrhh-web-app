@@ -48,7 +48,7 @@ export function Wizard({ children }: { children: React.ReactNode }) {
             <hr className="border-secondary my-4" />
 
             {/* RENDERIZADO DE PASOS: Ahora no se desmontan */}
-            <div className="flex-1 overflow-visible relative">
+            <div className="flex-1 overflow-y-auto max-h-64 relative">
                 {steps.map((step, i) => (
                 <div 
                     key={i} 
