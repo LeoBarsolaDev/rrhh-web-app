@@ -1,6 +1,6 @@
 export default function Logo({onClick} : {onClick?:() => void}){
     return(
-        <span onClick={onClick} className={`text-primary flex flex-col items-center`}>
+        <span onClick={onClick} className={`text-primary flex flex-col items-center select-none hover:cursor-pointer`}>
             <h2 className="lg:text-7xl md:text-6xl text-5xl font-black">
                 E3
             </h2>
