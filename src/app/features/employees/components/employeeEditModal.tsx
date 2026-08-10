@@ -2,14 +2,13 @@ import { Alert } from "../../../shared/components/alert";
 import { Button } from "../../../shared/components/button";
 import Form from "../../../shared/components/form";
 import Modal from "../../../shared/components/modal";
-import { Step, Wizard } from "../../../shared/components/wizard";
 import useEditModal from "../hooks/useEditModal";
 import { 
-  EditEmployeeContact, 
+    EditEmployeeContact,
   EditEmployeeFormAdminWork, 
   EditEmployeeFormPersonal, 
-  EditEmployeeFormWorkerWork, 
-  EditEmployeeHistory 
+  EditEmployeeFormWorkerWork,
+  EditEmployeeHistory, 
 } from "./employeeEditModalForms";
 
 export interface props {
@@ -33,92 +32,67 @@ export default function EmployeeEditModal({ open, setOpen, employee, onSuccess, 
   } = useEditModal();
 
   return (
-    <Modal open={open} setOpen={setOpen}>
+    <Modal open={open} setOpen={setOpen} width="md:w-5/10 w-9/10 max-h-[85vh]">
       <Alert type={alertType} show={alertOpen} onClose={() => {setAlertOpen(false)}} >
           {message}
       </Alert>
-      <div
-        className="
-          w-full py-2 px-0 flex flex-col gap-0 h-full
-          /* Configuración de Scroll */
-          overflow-y-visible overflow-x-hidden
-          /* Estilización del Scrollbar (Chrome, Safari, Edge) */
-          scrollbar-thin scrollbar-thumb-primary scrollbar-track-transparent
-          [&::-webkit-scrollbar]:w-2
-          [&::-webkit-scrollbar-track]:bg-transparent
-          [&::-webkit-scrollbar-thumb]:bg-primary/20
-          [&::-webkit-scrollbar-thumb]:rounded-full
-          hover:[&::-webkit-scrollbar-thumb]:bg-primary/50
-        "
-      >
-
-        {employee && open ? (
-          <Form
-            key={`${employee.id}-${open}`} /* <-- Esto fuerza la reinicialización completa */
+      {employee && open ? (
+        <Form 
             url="/rrhh/employees"
             method="PATCH"
+            /* 1. Usamos max-h-full y flex-col en el form */
+            className="w-full max-h-[75vh] flex flex-col items-center"
             onError={onError}
             onSuccess={onSuccess}
             validate={isCuilValid}
-          >
-            <Wizard>
-              {/* Paso 1: Información Personal */}
-              <Step name="Información Personal">
-                <span className="text-primary text-2xl font-bold text-center">
-                  {employee.type}
-                </span>
+        >
+            <input type="hidden" name="emp_id" defaultValue={employee.id} />
+            
+            {/* Títulos fijos arriba */}
+            <div className="flex-none w-full mb-2">
+              <h4 className="text-primary uppercase text-2xl text-center">Editar {employee.type}</h4>
+            </div>
+
+            {/* 2. CAMBIO CLAVE: flex-1 + min-h-0 + overflow-y-auto */}
+            <div className="w-full flex-1 min-h-0 overflow-y-auto pr-2">
+                <h4 className="text-primary uppercase text-lg text-center">Información personal</h4>
                 <EditEmployeeFormPersonal
                   employee={employee}
                   setIsCuilValid={setIsCuilValid}
                 />
-                <input type="hidden" name="emp_id" defaultValue={employee.id} />
-              </Step>
 
-              {/* Paso 2: Información Laboral */}
-              <Step name="Información Laboral">
-                <span className="text-primary text-2xl font-bold text-center">
-                  {employee.type}
-                </span>
+                <h4 className="text-primary uppercase text-lg text-center">Información laboral</h4>
                 {employee.type === "Administrativo" && (
-                  <EditEmployeeFormAdminWork
-                    categories={categories}
-                    employee={employee}
-                  />
+                    <EditEmployeeFormAdminWork
+                        categories={categories}
+                        employee={employee}
+                    />
                 )}
                 {employee.type === "Obrero" && (
-                  <EditEmployeeFormWorkerWork
-                    categories={categories}
-                    employee={employee}
-                  />
+                    <EditEmployeeFormWorkerWork
+                        categories={categories}
+                        employee={employee}
+                    />
                 )}
-                <input type="hidden" name="emp_id" defaultValue={employee.id} />
-              </Step>
-
-              {/* Paso 3: Historial de Bajas */}
-              <Step name="Historial de bajas">
+                
+                <h4 className="text-primary uppercase text-lg text-center">Historial de baja</h4>
                 <EditEmployeeHistory
                   title={employee.type}
                   history={employee.history ?? []}
                 />
-                <input type="hidden" name="emp_id" defaultValue={employee.id} />
-              </Step>
 
-              {/* Paso 4: Información de Contacto */}
-              <Step name="Información de Contacto">
-                <span className="text-primary text-2xl font-bold text-center">
-                  {employee.type}
-                </span>
+                <h4 className="text-primary uppercase text-lg text-center">Información de contacto</h4>
                 <EditEmployeeContact employee={employee} />
-                <input type="hidden" name="emp_id" defaultValue={employee.id} />
-                
-              </Step>
-            </Wizard>
-            <Button type="submit" rounded wide>
-              {isSending ? "Guardando..." : "Guardar"}
-            </Button>
-          </Form>
-        ) : null}
-      </div>
+            </div>
+
+            {/* 3. Botón fijo abajo */}
+            <div className="flex-none w-full pt-4">
+              <Button type="submit" rounded wide>
+                 {isSending ? "Guardando..." : "Guardar"}
+              </Button>
+            </div>
+        </Form>
+      ) : null}
     </Modal>
   );
 }

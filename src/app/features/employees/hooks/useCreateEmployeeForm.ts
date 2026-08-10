@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "../../../shared/services/apiClient";
+import { useNavigate } from "react-router-dom";
 
 export default function useCreateEmployeeForm(){
     const [isSending, setIsSending] = useState<boolean>(false);
@@ -8,6 +9,7 @@ export default function useCreateEmployeeForm(){
     const [message, setMessage] = useState<string>("");
     const [categories, setCategories] = useState<any>({});
     const [isCuilValid, setIsCuilValid] = useState<"not valid" | "valid" | "">("");
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -36,7 +38,7 @@ export default function useCreateEmployeeForm(){
         setAlertType("success")
         setMessage("Empleado creado con exito.");
 
-        // setTimeout(() => {window.location.reload();}, 2500);
+        setTimeout(() => {navigate("/employees");}, 2500);
     }
 
     const onError = (error: any) => {

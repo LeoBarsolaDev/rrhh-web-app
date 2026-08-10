@@ -480,7 +480,6 @@ export function EditEmployeeHistory({ title, history }: { title: string, history
                 onAdd={addNewRegister} 
             />
             
-            <span className="text-primary font-bold text-center"> {title} </span>
             <div className="border border-secondary p-4 rounded-lg flex flex-col gap-2">
                 <div className="w-full flex flex-col sm:flex-row gap-2">
                     <div className="flex-1">

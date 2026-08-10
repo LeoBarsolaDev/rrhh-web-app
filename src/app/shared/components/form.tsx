@@ -2,97 +2,121 @@ import { type ReactNode, type FormEvent } from 'react';
 import { api } from '../services/apiClient';
 
 interface Props {
-    url: string;
-    children?: ReactNode;
-    onSuccess?: (data: any) => void;
-    onError?: (error: any) => void;
-    className?: string;
-    isSending?: boolean;
-    method?: string;
-    validate?: ((data: any) => boolean | string) | "not valid" | "valid" | "" | boolean;
+  url: string;
+  children?: ReactNode;
+  onSuccess?: (data: any) => void;
+  onError?: (error: any) => void;
+  className?: string;
+  isSending?: boolean;
+  method?: 'POST' | 'PATCH' | 'PUT' | 'DELETE' | 'GET' | string;
+  validate?: ((data: any) => boolean | string) | "not valid" | "valid" | "" | boolean;
+  transformData?: (data: any) => any;
 }
 
-export default function Form({ url, children, onSuccess, onError, className = "p-6", method="POST", validate }: Props) {
+export default function Form({ 
+  url, 
+  children, 
+  onSuccess, 
+  onError, 
+  className = "p-6", 
+  method = "POST", 
+  validate,
+  transformData 
+}: Props) {
 
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("=== INICIO SUBMIT ===");
     
     try {
-        const formData = new FormData(e.currentTarget);
+      const formData = new FormData(e.currentTarget);
 
-        const hasFiles = Array.from(formData.values()).some(
-            (value) => value instanceof File && value.name !== "" && value.size > 0
-        );
+      // Detecta si el formulario incluye archivos para enviar FormData u Objeto plano
+      const hasFiles = Array.from(formData.values()).some(
+        (value) => value instanceof File && value.name !== "" && value.size > 0
+      );
 
-        const dataToSend = hasFiles ? formData : Object.fromEntries(formData.entries());
-        console.log("Datos a enviar listos:", dataToSend);
-        console.log("Valor de validate recibido:", validate);
+      let dataToSend: any = hasFiles ? formData : Object.fromEntries(formData.entries());
 
-        if (validate !== undefined && validate !== "") {
-            let isValid = true;
-            let errorMsg = "La validación ha fallado";
+      // 🛠️ Transformación previa del payload si existe la prop transformData
+      if (transformData) {
+        dataToSend = transformData(dataToSend);
+      }
 
-            if (typeof validate === "function") {
-                console.log("Validando como función...");
-                const result = validate(dataToSend);
-                if (result !== true) {
-                    isValid = false;
-                    if (typeof result === "string") errorMsg = result;
-                }
-            } else {
-                console.log("Validando como valor directo...");
-                // Comprobamos si validate es el string "valid" o directamente el booleano true
-                isValid = validate === "valid" || validate === true;
-            }
+      // 🛡️ Validación previa
+      if (validate !== undefined && validate !== "") {
+        let isValid = true;
+        let errorMsg = "La validación ha fallado";
 
-            console.log("¿Es válido?:", isValid);
-
-            if (!isValid) {
-                console.warn("❌ Validación fallida. Deteniendo petición.");
-                if (onError) {
-                    onError({
-                        message: errorMsg,
-                        response: { data: { error: errorMsg } }
-                    });
-                }
-                return; // Se detiene aquí
-            }
+        if (typeof validate === "function") {
+          const result = validate(dataToSend);
+          if (result !== true) {
+            isValid = false;
+            if (typeof result === "string") errorMsg = result;
+          }
+        } else {
+          isValid = validate === "valid" || validate === true;
         }
 
-        console.log("🚀 Enviando petición HTTP via apiClient...");
-        let response: any;
-
-        if (method.toLowerCase() === "post") {
-            response = await api.post(url, dataToSend);
+        if (!isValid) {
+          if (onError) {
+            onError({
+              message: errorMsg,
+              response: { data: { error: errorMsg } }
+            });
+          }
+          return;
         }
-        if (method.toLowerCase() === "patch") {
-            response = await api.patch(url, dataToSend);
-        }
+      }
 
-        console.log("✅ Respuesta recibida exitosamente:", response);
-        if (onSuccess) onSuccess(response);
+      // 🚀 Petición HTTP según el método elegido
+      let response: any;
+      const httpMethod = method.toLowerCase();
+
+      switch (httpMethod) {
+        case 'post':
+          response = await api.post(url, dataToSend);
+          break;
+        case 'patch':
+          response = await api.patch(url, dataToSend);
+          break;
+        case 'put':
+          response = await api.put(url, dataToSend);
+          break;
+        case 'delete':
+          response = await api.delete(url);
+          break;
+        case 'get':
+          response = await api.get(url);
+          break;
+        default:
+          if (typeof (api as any)[httpMethod] === 'function') {
+            response = await (api as any)[httpMethod](url, dataToSend);
+          } else {
+            throw new Error(`Método HTTP '${method}' no soportado.`);
+          }
+      }
+
+      if (onSuccess) onSuccess(response);
 
     } catch (error: any) {
-        console.error("💥 Error capturado dentro del try/catch de Form.tsx:", error);
-        
-        // Estructuramos el error para que useEditModal no reciba 'undefined'
-        if (onError) {
-            onError({
-                message: error.message || "Error de red o del servidor",
-                response: error.response || { data: { error: error.message } }
-            });
-        }
+      console.error("💥 Error capturado en Form.tsx:", error);
+      
+      if (onError) {
+        onError({
+          message: error?.message || "Error de red o del servidor",
+          response: error?.response || { data: { error: error?.message } }
+        });
+      }
     }
-};
+  };
 
-    return (
-        <form 
-            onSubmit={handleSubmit} 
-            className={className}
-            encType="multipart/form-data" 
-        >
-            {children}
-        </form>
-    );
+  return (
+    <form 
+      onSubmit={handleSubmit} 
+      className={className}
+      encType="multipart/form-data" 
+    >
+      {children}
+    </form>
+  );
 }

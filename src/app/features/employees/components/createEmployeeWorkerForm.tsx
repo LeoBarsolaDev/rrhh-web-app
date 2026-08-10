@@ -7,8 +7,8 @@ import { validateCuil } from "../services/validateCuilService";
 export function CreateEmployeeWorkerFormPersonal({setIsCuilValid} : {setIsCuilValid: (value: "" | "not valid" | "valid") => void}){
     const [isCuilValid, setIsCuilValidVar] = useState<"" | "not valid" | "valid">("");
     const [cuil, setCuil] = useState<string | number | null>("")
+    
     useEffect(() => {
-        // Si es null o undefined, tratamos como vacío
         const cuilRaw = cuil;
         const cuilClean = typeof cuilRaw === "string" ? cuilRaw.replace(/[-_\s]/g, "") : "";
 
@@ -18,8 +18,6 @@ export function CreateEmployeeWorkerFormPersonal({setIsCuilValid} : {setIsCuilVa
             return;
         }
 
-        // Mientras no llegue a 11, lo marcamos como "no válido" 
-        // (o puedes poner "" si no quieres que sea rojo mientras escribe)
         if (cuilClean.length < 11) {
             setIsCuilValid("not valid");
             setIsCuilValidVar("not valid");
@@ -39,9 +37,7 @@ export function CreateEmployeeWorkerFormPersonal({setIsCuilValid} : {setIsCuilVa
     };
     
     return(
-        <div className="p-2 flex flex-col justify-center">
-            <span className="text-primary font-bold text-center"> Obrero </span>
-            
+        <div className="w-full flex flex-col justify-center">
             {/* FK: ID numérico */}
             <Dropdown
                 label="Tipo de documento"
@@ -61,7 +57,7 @@ export function CreateEmployeeWorkerFormPersonal({setIsCuilValid} : {setIsCuilVa
             <Input 
                 required 
                 label="CUIL" 
-                placeholder="80-88.888.888-8" 
+                placeholder="80-88.888.888-9" 
                 name="cuil" 
                 type="text" 
                 icon={faIdCard}
@@ -99,44 +95,47 @@ export function CreateEmployeeWorkerFormPersonal({setIsCuilValid} : {setIsCuilVa
             />
 
             <Input required label="Fecha de nacimiento" name="birthday" type="date" icon={faBirthdayCake} />
-            <Input required placeholder="..." label="Domicilio" name="address" type="text" icon={faHouse} />
+            <Input required placeholder="Calle falsa 123" label="Domicilio" name="address" type="text" icon={faHouse} />
         </div>
     )
 }
 
-export function CreateEmployeeWorkerFormWork({categories} : {categories: any}){
+export function CreateEmployeeWorkerFormWork({ categories }: { categories: any }) {
     const [selectedCategoryId, setSelectedCategoryId] = useState<string>("");
 
     const handleCategoryChange = (value: string) => {
         setSelectedCategoryId(value);
     };
 
-    const selectedCategory = categories?.worker_categories?.find(
-        (cat: any) => cat.id.toString() === selectedCategoryId.toString()
+    // 🛡️ Aseguramos que workerCategories sea siempre un array accesible
+    const workerCategories = categories?.worker_categories || [];
+
+    const selectedCategory = workerCategories.find(
+        (cat: any) => cat?.id?.toString() === selectedCategoryId?.toString()
     );
 
-    return(
-        <div className="p-2 flex flex-col justify-center">
-            <span className="text-primary font-bold text-center"> Obrero </span>
-            
+    return (
+        <div className="w-full flex flex-col justify-center">
+            {/* 🛡️ Uso seguro de ?.map() */}
             <Dropdown
                 label="Categoria"
                 name="category"
                 icon={faTags}
-                options={categories.worker_categories.map((cat: any) => ({
+                options={workerCategories.map((cat: any) => ({
                     name: cat.name, 
                     id: cat.id
                 }))}
-                onChange={handleCategoryChange} // Ahora recibirá el ID correcto
+                onChange={handleCategoryChange}
                 required
             />
 
+            {/* 🛡️ Validación segura de subcategorías */}
             <Dropdown
                 label="Sub-categoria (opcional)"
                 name="subcategory"
                 icon={faCodeBranch}
                 options={
-                    selectedCategory?.subcategories?.length > 0 
+                    selectedCategory?.subcategories && selectedCategory.subcategories.length > 0 
                         ? selectedCategory.subcategories.map((sub: any) => ({
                             name: `${selectedCategory.name} de ${sub.name}`, 
                             id: sub.id
@@ -145,7 +144,7 @@ export function CreateEmployeeWorkerFormWork({categories} : {categories: any}){
                 }
             />
 
-            {/* FK: ID numérico (Mapeado al campo 'field' de la DB) */}
+            {/* FK: ID numérico */}
             <Dropdown
                 label="Rubro (opcional)"
                 icon={faSitemap}
@@ -165,13 +164,12 @@ export function CreateEmployeeWorkerFormWork({categories} : {categories: any}){
                 ]}
             />
         </div>
-    )
+    );
 }
 
 export function CreateEmployeeWorkerFormContact(){
     return(
-        <div className="p-2 flex flex-col justify-center">
-            <span className="text-primary font-bold text-center"> Obrero </span>
+        <div className="w-full flex flex-col justify-center">
             <Input placeholder="user@example.com" label="E-Mail  (opcional)" name="email" type="email" icon={faEnvelope} />
             <Input placeholder="2646888888" label="Numero de celular  (opcional)" name="mobile_phone" type="number" icon={faMobile} />
             <Input placeholder="4918888" label="Teléfono fijo  (opcional)" name="landline_phone" type="number" icon={faPhone} />

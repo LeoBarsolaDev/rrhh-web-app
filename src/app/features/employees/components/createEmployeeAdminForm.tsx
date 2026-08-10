@@ -24,7 +24,6 @@ export function CreateEmployeeAdminFormPersonal({setIsCuilValid} : {setIsCuilVal
         }
 
         // Mientras no llegue a 11, lo marcamos como "no válido" 
-        // (o puedes poner "" si no quieres que sea rojo mientras escribe)
         if (cuilClean.length < 11) {
             setIsCuilValid("not valid");
             setIsCuilValidVar("not valid");
@@ -44,8 +43,7 @@ export function CreateEmployeeAdminFormPersonal({setIsCuilValid} : {setIsCuilVal
     };
     
     return(
-        <div className="p-2 flex flex-col justify-center">
-            <span className="text-primary font-bold text-center"> Administrativo </span>
+        <div className="w-full flex flex-col justify-center">
             
             {/* FK: Mantiene IDs numéricos */}
             <Dropdown
@@ -91,10 +89,9 @@ export function CreateEmployeeAdminFormPersonal({setIsCuilValid} : {setIsCuilVal
 
             {/* ENUM: ID igual al Nombre */}
             <Dropdown
-                label="Estado civil"
+                label="Estado civil (opcional)"
                 icon={faChurch}
                 name="marital_status"
-                required
                 placeholder="Seleccione el Estado civil"
                 options={[
                     {name:'Soltero', id:'Soltero'}, 
@@ -117,24 +114,26 @@ export function CreateEmployeeAdminFormWork({categories} : {categories: any}){
         setSelectedCategoryId(value);
     };
 
-    const selectedCategory = categories?.admin_categories?.find(
-        (cat: any) => cat.id.toString() === selectedCategoryId.toString()
+    // Extraemos la lista de categorías administrativas de forma segura
+    const adminCategories = categories?.admin_categories || [];
+
+    const selectedCategory = adminCategories.find(
+        (cat: any) => cat?.id?.toString() === selectedCategoryId.toString()
     );
 
     return(
-        <div className="p-2 flex flex-col justify-center">
-            <span className="text-primary font-bold text-center"> Administrativo </span>
+        <div className="w-full flex flex-col justify-center">
             
             {/* FKs: Mantienen IDs numéricos para relacionar con las tablas */}
             <Dropdown
                 label="Categoria"
                 name="category"
                 icon={faTags}
-                options={categories.admin_categories.map((cat: any) => ({
+                options={adminCategories.map((cat: any) => ({
                     name: cat.name, 
                     id: cat.id
                 }))}
-                onChange={handleCategoryChange} // Ahora recibirá el ID correcto
+                onChange={handleCategoryChange}
                 required
             />
 
@@ -143,7 +142,7 @@ export function CreateEmployeeAdminFormWork({categories} : {categories: any}){
                 name="subcategory"
                 icon={faCodeBranch}
                 options={
-                    selectedCategory?.subcategories?.length > 0 
+                    selectedCategory?.subcategories && selectedCategory.subcategories.length > 0 
                         ? selectedCategory.subcategories.map((sub: any) => ({
                             name: `${selectedCategory.name} de ${sub.name}`, 
                             id: sub.id
@@ -154,7 +153,7 @@ export function CreateEmployeeAdminFormWork({categories} : {categories: any}){
 
             <Dropdown
                 label="Area (opcional)"
-                name="area" // Corregido el name
+                name="area"
                 icon={faBuilding}
                 options={[
                     {name:'EMPRENDEDORA', id:'1'}, 
@@ -214,10 +213,8 @@ export function CreateEmployeeHistory({title} : {title:string}) {
             legal_date: data.legal_date,
         };
 
-        // Insertamos el nuevo registro al principio de la lista
         setRegisters((prev) => [newRegister, ...prev]);
 
-        // Cerramos ambos modales de forma segura
         setOpenModalStart(false);
         setOpenModalSeparation(false);
     };
@@ -359,10 +356,9 @@ export function CreateEmployeeHistory({title} : {title:string}) {
     }
 
     return (
-        <div className="p-2 flex flex-col justify-center">
+        <div className=" flex flex-col justify-center w-full">
             <StartModal />
             <SeparationModal />
-            <span className="text-primary font-bold text-center"> {title} </span>
             <div className="border border-secondary p-4 rounded-lg flex flex-col gap-2">
                 <div className="w-full flex flex-col sm:flex-row gap-2">
                     <div className="flex-1">
@@ -377,12 +373,11 @@ export function CreateEmployeeHistory({title} : {title:string}) {
                     </div>
                 </div>
 
-                {/* Renderizado de las HistoryCard optimizadas con una Key única */}
                 <div className="flex flex-col items-center gap-3 mt-2">
                     {registers.length > 0 ? 
                         registers.map((reg, index) => (
                             <div key={`register-${index}`} className="w-full flex justify-center">
-                                <HistoryCard onDelete={() => deleteRegister(reg.id)}  index={index} register={reg} />
+                                <HistoryCard onDelete={() => deleteRegister(reg.id)} index={index} register={reg} />
                             </div>
                         ))
                         :
@@ -396,8 +391,7 @@ export function CreateEmployeeHistory({title} : {title:string}) {
 
 export function CreateEmployeeAdminFormContact(){
     return(
-        <div className="p-2 flex flex-col justify-center">
-            <span className="text-primary font-bold text-center"> Administrativo </span>
+        <div className="w-full flex flex-col justify-center">
             <Input 
                 label="E-Mail (opcional)"
                 name="email"
