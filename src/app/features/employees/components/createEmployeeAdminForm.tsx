@@ -189,7 +189,7 @@ export function CreateEmployeeAdminFormWork({categories} : {categories: any}){
     )
 }
 
-export function CreateEmployeeHistory({title} : {title:string}) {
+export function CreateEmployeeHistory() {
     const [openModalStart, setOpenModalStart] = useState<boolean>(false);
     const [openModalSeparation, setOpenModalSeparation] = useState<boolean>(false);
     const [registers, setRegisters] = useState<RegisterProps[]>([]);

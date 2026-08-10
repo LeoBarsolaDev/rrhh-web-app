@@ -98,7 +98,7 @@ export default function CreateEmployeePage(){
                         {employee_type === "Obrero" && <CreateEmployeeWorkerFormWork categories={categories} />}
 
                         <span className="text-primary text-xl font-bold text-center mt-4"> Historial de bajas </span>
-                        <CreateEmployeeHistory title={employee_type} />
+                        <CreateEmployeeHistory />
 
                         <span className="text-primary text-xl font-bold text-center mt-4"> Información de contacto </span>
                         {employee_type === "Administrativo" && <CreateEmployeeAdminFormContact />}

@@ -441,7 +441,7 @@ function SeparationModal({
     );
 }
 
-export function EditEmployeeHistory({ title, history }: { title: string, history: RegisterProps[] }) {
+export function EditEmployeeHistory({ history }: { history: RegisterProps[] }) {
     const [openModalStart, setOpenModalStart] = useState<boolean>(false);
     const [openModalSeparation, setOpenModalSeparation] = useState<boolean>(false);
     const [registers, setRegisters] = useState<RegisterProps[]>(history ?? []);

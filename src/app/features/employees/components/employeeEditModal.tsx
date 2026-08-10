@@ -77,7 +77,6 @@ export default function EmployeeEditModal({ open, setOpen, employee, onSuccess, 
                 
                 <h4 className="text-primary uppercase text-lg text-center">Historial de baja</h4>
                 <EditEmployeeHistory
-                  title={employee.type}
                   history={employee.history ?? []}
                 />
 

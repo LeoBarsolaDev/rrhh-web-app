@@ -90,7 +90,7 @@ export default function CreateEmployeeForm(){
                 </Step>
 
                 <Step name="Historial de bajas">
-                    <CreateEmployeeHistory title={employee_type} />
+                    <CreateEmployeeHistory />
                 </Step>
 
                 <Step name="Información de contacto">
