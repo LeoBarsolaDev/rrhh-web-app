@@ -5,11 +5,12 @@ import { faCircleCheck, faClock, faFileCircleCheck, faListCheck, faTicket, faXma
 import RequestsTable from "../components/requestsTable";
 import { useState } from "react";
 import Tab from "../../../shared/components/Tab";
-
-
+import SearchBar from "../../../shared/components/searchBar";
 
 export default function RequestsPage(){
     const [selectedTab, setSelectedTab] = useState<"all" | "pending" | "reviewed" | "approved" | "rejected">("all");
+    const [searchQuery, setSearchQuery] = useState<string>("");
+    
 
     return(
         <>
@@ -17,24 +18,26 @@ export default function RequestsPage(){
             <div 
                 className="
                     xl:ml-52 lg:ml-48 md:ml-40 md:mt-0 ml-0 mt-24 py-8
-                    md:min-h-screen min-h-[calc(100dvh-6rem)]  flex justify-center items-center
+                    md:min-h-screen min-h-[calc(100dvh-6rem)] flex justify-center items-center
                 "
             >
-                <Frame styles="md:w-9/10 w-19/20" rounded>
+                <Frame styles="md:w-9/10 w-19/20 flex flex-col max-h-[85vh]" rounded>
+                    {/* Header */}
                     <div className="
-                        w-full h-1/10
+                        w-full shrink-0
                         border-b-4 border-separator
                         flex justify-start items-center p-4
                     ">
                         <span className="
-                        flex gap-2 items-center 
-                        text-2xl text-foreground font-bold 
+                            flex gap-2 items-center 
+                            text-2xl text-foreground font-bold 
                         ">
                             <FontAwesomeIcon icon={faTicket} /> Solicitudes
                         </span>
                     </div>
 
-                    <ul className="flex border-b-4 border-separator">
+                    {/* Tabs */}
+                    <ul className="flex border-b-4 border-separator shrink-0 overflow-x-auto">
                         <Tab
                             icon={faListCheck}
                             value="all"
@@ -81,7 +84,14 @@ export default function RequestsPage(){
                         </Tab>
                     </ul>
 
-                    <RequestsTable selectedTab={selectedTab} />
+                    <span className="px-4 py-1">
+                        <SearchBar value={searchQuery} onChange={setSearchQuery} />
+                    </span>
+
+                    {/* Lista con Altura Fija y Scroll */}
+                    <div className="flex-1 h-137.5 overflow-y-auto custom-scrollbar">
+                        <RequestsTable selectedTab={selectedTab} searchQuery={searchQuery} />
+                    </div>
                 </Frame>
             </div>
         </>

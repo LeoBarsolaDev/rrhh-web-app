@@ -47,6 +47,12 @@ export default function RequestsCard({ request, onClick }: props) {
                 <span className="text-sm font-light line-clamp-2">
                     {request?.other_explanation || "..."}
                 </span>
+                <span className="text-sm font-light line-clamp-2">
+                    {request?.requester_file_number 
+                        ? (<># { String(request.requester_file_number).padStart(4, '0') } </>)
+                    : '-'}
+                    - {request?.requester_name}
+                </span>
             </div>
 
             <div className="
