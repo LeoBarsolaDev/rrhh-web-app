@@ -19,11 +19,12 @@ export const EmployeeCard = memo(function EmployeeCard({ employee, handleEdit, h
     };
     return (
     <div className="
-        w-full grid grid-cols-[64px_2fr_2fr_150px_150px] px-4 py-2 items-center
+        w-full md:grid md:grid-cols-[64px_2fr_2fr_150px_150px] px-4 py-2 items-center
+        flex flex-col gap-2
         bg-secondary rounded-xl font-bold
         hover:bg-surface group
     ">
-        <span className=""> {employee.file_number} </span>
+        <span className=""> # {employee.file_number.toString().padStart(4, '0')} </span>
         <span className=""> {employee.full_name} </span>
         <span className=""> {employee.type == "Administrativo" ? employee?.area_name || "Area no registrada" : employee?.field || "Rubro no registrado" } </span>
         <span className="">
