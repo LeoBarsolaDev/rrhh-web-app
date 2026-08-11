@@ -26,7 +26,7 @@ export const EmployeeCard = memo(function EmployeeCard({ employee, handleEdit, h
     ">
         <span className=""> # {employee.file_number.toString().padStart(4, '0')} </span>
         <span className=""> {employee.full_name} </span>
-        <span className=""> {employee.type == "Administrativo" ? employee?.area_name || "Area no registrada" : employee?.field || "Rubro no registrado" } </span>
+        <span className=""> {employee.type == "Administrativo" ? employee?.area_name || "Area no registrada" : employee?.field_name || "Obras" } </span>
         <span className="">
             <Badge 
                 value={employee.status} // "Activo" o "De baja"
