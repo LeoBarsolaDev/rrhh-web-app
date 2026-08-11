@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { api } from "../../../shared/services/apiClient";
 
-export default function useRequestModal(){
+export default function useRequestModal(setOpen: (item: boolean) => void, fetch: () => void){
     const [openPriority, setOpenPriority] = useState<boolean>(false);
     const [alertOpen, setAlertOpen] = useState<boolean>(false);
     const [alertMessage, setAlertMessage] = useState<string>("");
@@ -11,13 +11,13 @@ export default function useRequestModal(){
         try {
             await api.patch("/procedures/requests", data);
 
-
             setAlertOpen(true);
             setOpenPriority(false);
             setAlertType("success")
             setAlertMessage(message);
+            fetch();
 
-            setTimeout(() => {window.location.reload();}, 1500);
+            setTimeout(() => { setOpen(false); }, 250);
         } catch (error: any) {
             console.error("Error:", error);
             let finalMessage = "Error de validación";

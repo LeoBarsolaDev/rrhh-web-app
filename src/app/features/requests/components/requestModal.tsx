@@ -7,7 +7,7 @@ import { faCheck, faCheckDouble, faPencil, faXmark } from "@fortawesome/free-sol
 import useRequestModal from "../hooks/useRequestModal";
 import { Alert } from "../../../shared/components/alert";
 
-export default function RequestModal({ request, open, setOpen }: { request: Requests | null, open: boolean, setOpen: (value: boolean) => void; }) {
+export default function RequestModal({ request, open, setOpen, fetch }: { request: Requests | null, open: boolean, setOpen: (value: boolean) => void; fetch: () => void }) {
     const InfoField = ({ label, value }: { label: string; value: string | number | null | undefined }) => (
         <span className="flex sm:flex-row flex-col md:items-center md:justify-center sm:gap-4 text-lg">
             <b className="text-primary">{label}:</b>
@@ -37,7 +37,7 @@ export default function RequestModal({ request, open, setOpen }: { request: Requ
         setOpenPriority,
         handleEditRequest,
         setAlertOpen
-    } = useRequestModal();
+    } = useRequestModal(setOpen, fetch);
 
     return (
         <Modal open={open} setOpen={setOpen} width="max-h-9/10 md:w-6/10 w-9/10">

@@ -8,7 +8,8 @@ export default function RequestsTable({selectedTab} : {selectedTab: string}){
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [selectedRequest, setSelectedRequest] = useState<Requests | null>(null);
     const {
-        requests
+        requests,
+        fetchEmployees
     } = useRequestsTable()
     const filteredRequests = requests.filter(req => {
         if (selectedTab === "all") return true;
@@ -41,7 +42,7 @@ export default function RequestsTable({selectedTab} : {selectedTab: string}){
             <h2 className="text-lg font-bold text-placeholder"> No hay Solicitudes Registradas</h2>
             }
 
-            <RequestModal open={openModal} setOpen={setOpenModal} request={selectedRequest} />
+            <RequestModal open={openModal} setOpen={setOpenModal} request={selectedRequest} fetch={ fetchEmployees } />
         </div>
     )
 }
