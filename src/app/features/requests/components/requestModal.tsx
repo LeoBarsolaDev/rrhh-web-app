@@ -94,7 +94,7 @@ export default function RequestModal({ request, open, setOpen, fetch }: { reques
                 </div>
 
                 {/* 3. BOTONES FIJOS ABAJO (flex-shrink-0 / shrink-0) */}
-                <div className="shrink  flex gap-2 w-full flex-col md:flex-row">
+                <div className="shrink flex gap-2 w-full flex-col md:flex-row">
                     <div className=" py-2 px-4 rounded-2xl w-full flex gap-2 flex-col sm:flex-row">
                         <div className="relative w-full">
                             <div className={`
